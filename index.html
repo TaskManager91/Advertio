@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="advertioApp">
+  <head>
+  <meta charset="utf-8">
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <base href="/">
+
+  <title>Advertio Webfrontend</title>
+  <link rel="shortcut icon" href="img/logo.png">
+
+  
+  <link rel="stylesheet" href="dist/css/styles.css">
+
+</head>
+<body ng-controller="MasterCtrl">
+  
+  <div ng-if="logedin" id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+    <nav class="navbar navbar-default" style="background:#31859B; margin-left:-100px">
+      <div class="container-fluid">
+    <div class="navbar-header">
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav" style="">
+          <li><img src="/img/logo.png" style="height:50px"></li>
+          <li style="background:#47ABC5"><a href="/map" class="active"><font color="white">Werbetafeln</font></a></li>
+          <li><a href="/werbEdit"><font color="white">Werbetafel Editieren</font></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><font color="white">Kontakt</font></a></li>
+          <li><a href="#" ng-click="logout()"><font color="white">Logout</font></a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+  <div ng-view></div>
+  </div>
+   <div ng-if="!logedin" class="row">
+    <img src="img/blurred-bg-13.jpg" style="height:100%; left:0; position: fixed !important; top: 0; width: 100%" alt="">
+    <div class="col-md-4 col-md-offset-4">
+        <form class="row">
+        <br/><br/><br/><br/>
+            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <div class="col-md-10 col-md-offset-1 content-box modal-content">
+                <h4 class="content-box-header content-box-header-alt">
+                    <p>Advertio <small>Login to your account.</small></p>
+                </h4>
+                <div class="content-box-wrapper">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input ng-model="usr.user" type="text" class="form-control" id="email" placeholder="Enter email">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input ng-model="usr.pwd" type="password" class="form-control" id="pw" placeholder="Password">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a href="" title="Recover password">Forgot Your Password?</a>
+                    </div>
+                    <button ng-click="submit(usr)" class="btn btn-success btn-block">Sign In</button><br/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>    
+
+  
+  <script src="dist/js/libs.js"></script>
+
+  <script src="dist/js/app.js"></script>
+</body>
+</html>
