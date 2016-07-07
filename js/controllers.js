@@ -6,6 +6,7 @@ angular.module('advertioApp.controllers', [])
 	 $scope.alerts = [
   	];
 	$location.path('/map');
+	console.log("MAP");
 
 	if($scope.user != null)
 	{
