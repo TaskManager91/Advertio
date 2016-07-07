@@ -5,7 +5,7 @@ angular.module('advertioApp.controllers', [])
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
-	//$location.path('/map');
+	$location.path('/map');
 
 	if($scope.user != null)
 	{
