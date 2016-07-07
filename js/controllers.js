@@ -1,7 +1,7 @@
 angular.module('advertioApp.controllers', [])
 .controller('MasterCtrl', function($scope, $location, $cookies, authService) {
 	
-	$scope.logedin = false;
+	$scope.logedin = true;
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
