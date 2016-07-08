@@ -136,21 +136,58 @@ angular.module('advertioApp.controllers', [])
 		*/
         queryService.setBoard(board)
         	.success(function(data, status, headers, config) {
-        		console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
     			
     			//change path specific on user rights
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
-  				console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
+
   			});
     };
 
 
+})
+.controller('streamController', function(config, $scope, $routeParams, queryService, $interval) {
+    var currentId = $routeParams.id;
+    $scope.stream = false;
+    $scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
+
+    var tafel = $interval(function(currentId){
+    	if($scope.stream)
+			$scope.stream = false;
+		else
+			$scope.stream = true;
+
+		$scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
+
+    	console.log("blah");
+    }, 30000);
+
+
+    	/*
+		queryService.getBoard(currentId).then(function(response){
+			$scope.currentQuery = response.data;
+
+			$scope.board = $scope.currentQuery;
+			if($scope.board.stream != "empty")
+				$scope.stream = true;
+			else
+				$scope.stream = false;
+
+			//$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
+			$scope.board.stream = "empty";
+
+			queryService.setBoard(board)
+	        	.success(function(data, status, headers, config) {
+	    			
+	    			//change path specific on user rights
+	    			$location.path('/map');
+	  			})
+	  			.error(function(data, status, headers, config) {
+
+	  			});
+
+			console.log($scope.board);
+		});
+		*/
 });

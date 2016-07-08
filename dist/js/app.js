@@ -5,15 +5,17 @@ angular.module('advertioApp',['ui.bootstrap',
 	'advertioApp.controllers',
 	'advertioApp.directives',
 	'advertioApp.services'])
-.config(function($routeProvider, $httpProvider, $locationProvider) {
+.config(function($routeProvider, $httpProvider, $locationProvider, $sceProvider) {
 
     $locationProvider.html5Mode(true);
     $locationProvider.html5Mode(true).hashPrefix('!');
 	$routeProvider
 		.when('/', {templateUrl: 'Partials/login.html'})
 		.when('/map', {templateUrl: 'Partials/map.html', controller: 'mapController'})
-		.when('/werbEdit/:id', {templateUrl: 'Partials/werbEdit.html', controller: 'werbEditController'});
+		.when('/werbEdit/:id', {templateUrl: 'Partials/werbEdit.html', controller: 'werbEditController'})
+		.when('/stream/:id', {templateUrl: 'Partials/stream.html', controller: 'streamController'});
 	$httpProvider.defaults.useXDomain = true; 
+	$sceProvider.enabled(false);
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 })
 .constant('config', {
@@ -143,11 +145,11 @@ angular.module('advertioApp.controllers', [])
 			}
 		}
 		*/
-		console.log($scope.id);
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 
 	$scope.saveBoard = function () {
+		/* Dank Json support nicht mehr nötig!
 		var id = $scope.id.toString();
 		var adr = $scope.adr.toString();
 		var x = $scope.x.toString();
@@ -155,25 +157,63 @@ angular.module('advertioApp.controllers', [])
 		var p = $scope.p.toString();
 		board = id +" " + adr + " " + x + " " + y +" " + p;
 		console.log(board);
+		*/
         queryService.setBoard(board)
         	.success(function(data, status, headers, config) {
-        		console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
     			
     			//change path specific on user rights
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
-  				console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
+
   			});
     };
 
 
+})
+.controller('streamController', function(config, $scope, $routeParams, queryService, $interval) {
+    var currentId = $routeParams.id;
+    $scope.stream = false;
+    $scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
+
+    var tafel = $interval(function(currentId){
+    	if($scope.stream)
+			$scope.stream = false;
+		else
+			$scope.stream = true;
+
+		$scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
+
+    	console.log("blah");
+    }, 30000);
+
+
+    	/*
+		queryService.getBoard(currentId).then(function(response){
+			$scope.currentQuery = response.data;
+
+			$scope.board = $scope.currentQuery;
+			if($scope.board.stream != "empty")
+				$scope.stream = true;
+			else
+				$scope.stream = false;
+
+			//$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
+			$scope.board.stream = "empty";
+
+			queryService.setBoard(board)
+	        	.success(function(data, status, headers, config) {
+	    			
+	    			//change path specific on user rights
+	    			$location.path('/map');
+	  			})
+	  			.error(function(data, status, headers, config) {
+
+	  			});
+
+			console.log($scope.board);
+		});
+		*/
 });
 
 angular.module('advertioApp.directives', [])
@@ -231,7 +271,7 @@ angular.module('advertioApp.directives', [])
 
 				//console.log(xnew);
 				//console.log(ynew);
-				var markerString = '<b>Werbetafel:</b>' + 
+				var markerString = '<h2>Werbetafel:</h2>' + 
 									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
 									'<br>AdressID: ' + Boards[i].adresse+
 									'<br>GrößeX: ' + Boards[i].dimensionX+
@@ -239,7 +279,8 @@ angular.module('advertioApp.directives', [])
 									'<br>Preis: ' + Boards[i].preis+
 									'<br>xPos: ' + Boards[i].xPos+
 									'<br>yPos: ' + Boards[i].yPos+
-									'<br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">Tafel editieren</a>';
+									'<br><br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">editieren</a> ' +
+									'<a href ="/stream/' +Boards[i].werbetafelId + '">stream</a>';
 				//console.log(markerString);
 
 				L.marker([Boards[i].xPos, Boards[i].yPos],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
@@ -289,9 +330,7 @@ angular.module('advertioApp.services', [])
 		},
 		setBoard: function(board)
 		{
-			var boardString = board;
-			console.log(boardString);
-			return $http.post(config.apiUrl  + '/api/board', boardString);
+			return $http.post(config.apiUrl  + '/api/board', board);
 		}
 	}
 });

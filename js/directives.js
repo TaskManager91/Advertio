@@ -53,7 +53,7 @@ angular.module('advertioApp.directives', [])
 
 				//console.log(xnew);
 				//console.log(ynew);
-				var markerString = '<b>Werbetafel:</b>' + 
+				var markerString = '<h2>Werbetafel:</h2>' + 
 									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
 									'<br>AdressID: ' + Boards[i].adresse+
 									'<br>GrößeX: ' + Boards[i].dimensionX+
@@ -61,7 +61,8 @@ angular.module('advertioApp.directives', [])
 									'<br>Preis: ' + Boards[i].preis+
 									'<br>xPos: ' + Boards[i].xPos+
 									'<br>yPos: ' + Boards[i].yPos+
-									'<br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">Tafel editieren</a>';
+									'<br><br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">editieren</a> ' +
+									'<a href ="/stream/' +Boards[i].werbetafelId + '">stream</a>';
 				//console.log(markerString);
 
 				L.marker([Boards[i].xPos, Boards[i].yPos],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
