@@ -11,7 +11,7 @@
   <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
   <div class="col-md-3">
     <div class="form-group" style="margin-top:10px">
-    <input type="text" class="form-control" name="id" ng-model="id" required>
+    <input type="text" class="form-control" name="id" ng-model="board.werbetafelId" required>
     </div>
     </div>
     <div class="col-md-5"></div> 
@@ -21,7 +21,7 @@
   <div class="col-md-2"><h4 style="margin-bottom:10px">Standort</h4> </div><!-- Single button -->
   <div class="col-md-3">
     <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="adr" required>
+      <input type="text" class="form-control" name="id" ng-model="board.adresse" required>
     </div>
   </div>
   <div class="col-md-5"></div> 
@@ -31,7 +31,7 @@
   <div class="col-md-2"><h4 style="margin-bottom:10px">XPos</h4> </div><!-- Single button -->
   <div class="col-md-3">
     <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="x" required>
+      <input type="text" class="form-control" name="id" ng-model="board.dimensionX" required>
     </div>
   </div>
   <div class="col-md-5"></div> 
@@ -41,7 +41,7 @@
   <div class="col-md-2"><h4 style="margin-bottom:10px">YPos</h4> </div><!-- Single button -->
   <div class="col-md-3">
     <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="y" required>
+      <input type="text" class="form-control" name="id" ng-model="board.dimensionY" required>
     </div>
   </div>
   <div class="col-md-5"></div> 
@@ -51,7 +51,7 @@
   <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div><!-- Single button -->
   <div class="col-md-3">
     <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="p" required>
+      <input type="text" class="form-control" name="id" ng-model="board.preis" required>
     </div>
   </div>
   <div class="col-md-5"></div> 
@@ -62,8 +62,8 @@
   <div class="col-md-2"></div>  
   <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="saveBoard()">Speichern</button> </div><!-- Single button -->
   <div class="col-md-1"></div>
-  <div class="col-md-2"><button type="button" class="btn btn-default btn-block">Abbrechen</button> </div><!-- Single button -->
+  <div class="col-md-2"><button type="button" class="btn btn-default btn-block" href="/map">Abbrechen</button> </div><!-- Single button -->
   <div class="col-md-1"></div>
-  <div class="col-md-2"><button type="button" class="btn btn-default btn-block">Löschen</button> </div><!-- Single button -->
+  <div class="col-md-2"></div><!-- hier war der Delete button -->
   <div class="col-md-2"></div> 
 </div>  

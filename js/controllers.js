@@ -24,9 +24,6 @@ angular.module('advertioApp.controllers', [])
         authService.login(usr)
         	.success(function(data, status, headers, config) {
         		console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
     			authService.setSettings(usr.user, token);
 				$scope.logedin = true;
     			$scope.user = usr.user;
@@ -35,10 +32,6 @@ angular.module('advertioApp.controllers', [])
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
-  				console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
         		if(data== "error")
         			$scope.alerts.push({ type: 'danger', msg: 'User nicht bekannt!'});
         		else if(data == "wrongPW")
@@ -47,6 +40,10 @@ angular.module('advertioApp.controllers', [])
         			$scope.alerts.push({ type: 'danger', msg: 'Unbekannter Fehler, bitte wenden sie sich an den Support!'});
   			});
     };
+
+    $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
 
     $scope.logout = function() {
         $cookies.remove('user');
@@ -60,13 +57,14 @@ angular.module('advertioApp.controllers', [])
 
 	queryService.getBoards().then(function(response){
 		$scope.currentQuery = response.data;
-		console.log($scope.currentQuery);
-		$scope.Buffer = $scope.currentQuery.split("-");
+		//console.log($scope.currentQuery);
+		//$scope.Buffer = $scope.currentQuery.split("-");
 
 
-		$scope.boards = new Array($scope.Buffer.length);
-		console.log($scope.Buffer);
-
+		//$scope.boards = new Array($scope.Buffer.length);
+		$scope.boards = $scope.currentQuery;
+		console.log($scope.boards);
+		/*
 		for(var i = 0; i<$scope.Buffer.length-1; i++)
 		{
 			var board = $scope.Buffer[i].split(" ");
@@ -82,29 +80,30 @@ angular.module('advertioApp.controllers', [])
 			$scope.boards[i][6] = board[6];		//YPos
 
 		}
-		console.log($scope.boards);
+		*/
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 })
 .controller('werbEditController', function($scope, $routeParams, queryService) {
     var currentId = $routeParams.id;
+    /*
     $scope.id = 0;
 		$scope.adr = 0;
 		$scope.x = 0;
 		$scope.y = 0;
 		$scope.p = 0;
 		var board = "";
+		*/
 
-    queryService.getBoards().then(function(response){
+    queryService.getBoard(currentId).then(function(response){
 		$scope.currentQuery = response.data;
-		console.log($scope.currentQuery);
-		$scope.Buffer = $scope.currentQuery.split("-");
+		//console.log($scope.currentQuery);
+		//$scope.Buffer = $scope.currentQuery.split("-");
 
+		$scope.board = $scope.currentQuery;
+		console.log($scope.board);
 
-
-		$scope.boards = new Array($scope.Buffer.length);
-		console.log($scope.Buffer);
-
+		/* Nicht mehr nötig hab es auf JSON gestellt
 		for(var i = 0; i<$scope.Buffer.length-1; i++)
 		{
 			var bBoard = $scope.Buffer[i].split(" ");
@@ -121,11 +120,12 @@ angular.module('advertioApp.controllers', [])
 				$scope.yPos = board[6];		//YPos
 			}
 		}
-		console.log($scope.id);
+		*/
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 
 	$scope.saveBoard = function () {
+		/* Dank Json support nicht mehr nötig!
 		var id = $scope.id.toString();
 		var adr = $scope.adr.toString();
 		var x = $scope.x.toString();
@@ -133,6 +133,7 @@ angular.module('advertioApp.controllers', [])
 		var p = $scope.p.toString();
 		board = id +" " + adr + " " + x + " " + y +" " + p;
 		console.log(board);
+		*/
         queryService.setBoard(board)
         	.success(function(data, status, headers, config) {
         		console.log(data);

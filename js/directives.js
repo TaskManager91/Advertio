@@ -29,15 +29,18 @@ angular.module('advertioApp.directives', [])
 			{
 			var Boards = scope.boards;
 			console.log(Boards);
-			for(var i = 0; i<Boards.length-1; i++){
+			//for(var i = 0; i<Boards.length-1; i++){
+			for(var i in Boards){
+				console.log(Boards[i]);
 				//console.log("here");
 				//var position = Boards[i].position;
+				/*
 				var id = String(Boards[i][0]);
 				var adr = String(Boards[i][1]);
 				var x = String(Boards[i][5]);
 				var y = String(Boards[i][6]);
 				var p = String(Boards[i][4]);
-				//console.log(x);
+				*/
 				
 				//console.log(String(Boards[i][0]));
 
@@ -50,26 +53,22 @@ angular.module('advertioApp.directives', [])
 
 				//console.log(xnew);
 				//console.log(ynew);
-				var markerString = 'Werbetafel: <a href="/werbEdit/'+ id + '">' + id + '</a><br>Preis:' + p;
+				var markerString = '<b>Werbetafel:</b>' + 
+									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
+									'<br>AdressID: ' + Boards[i].adresse+
+									'<br>GrößeX: ' + Boards[i].dimensionX+
+									'<br>GrößeY: ' + Boards[i].dimensionY+
+									'<br>Preis: ' + Boards[i].preis+
+									'<br>xPos: ' + Boards[i].xPos+
+									'<br>yPos: ' + Boards[i].yPos+
+									'<br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">Tafel editieren</a>';
 				//console.log(markerString);
 
-				L.marker([x, y],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
+				L.marker([Boards[i].xPos, Boards[i].yPos],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				//L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				}
-			}
-
-			// DEMO FIX
-
-			function updateMarker(){
-				$http.get('https://42-ways.de:8443/vehicle?vehicle_id=1').then(function(response){
-				 	var Cars = response.data.vehicles;
-					var position = Cars[0].lastposition;
-					var x = (position.latitude || 50.9488);
-					var y = (position.longitude || 6.924);
-					demomarker.setLatLng([x,y],{icon:greenIcon}).update();
-				});
 			}
 			//$interval(updateMarker, 2000);
 		}
 	};
-});
+});4

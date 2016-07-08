@@ -3,8 +3,7 @@ angular.module('advertioApp.services', [])
 	var authService = {};
 
 	authService.login = function(usr){
-		var usrString = "\"" +  usr.user + " " + usr.pwd + "\""  ;
-		return $http.post(config.apiUrl + "/api/login", usrString);
+		return $http.post(config.apiUrl + "/api/login", usr);
 	};
 
 	authService.setBoard = function(board){
@@ -38,9 +37,7 @@ angular.module('advertioApp.services', [])
 		},
 		setBoard: function(board)
 		{
-			var boardString = board;
-			console.log(boardString);
-			return $http.post(config.apiUrl  + '/api/board', boardString);
+			return $http.post(config.apiUrl  + '/api/board', board);
 		}
 	}
 });

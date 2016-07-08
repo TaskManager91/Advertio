@@ -46,9 +46,6 @@ angular.module('advertioApp.controllers', [])
         authService.login(usr)
         	.success(function(data, status, headers, config) {
         		console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
     			authService.setSettings(usr.user, token);
 				$scope.logedin = true;
     			$scope.user = usr.user;
@@ -57,10 +54,6 @@ angular.module('advertioApp.controllers', [])
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
-  				console.log(data);
-        		console.log(status);
-        		console.log(headers);
-        		console.log(config);
         		if(data== "error")
         			$scope.alerts.push({ type: 'danger', msg: 'User nicht bekannt!'});
         		else if(data == "wrongPW")
@@ -69,6 +62,10 @@ angular.module('advertioApp.controllers', [])
         			$scope.alerts.push({ type: 'danger', msg: 'Unbekannter Fehler, bitte wenden sie sich an den Support!'});
   			});
     };
+
+    $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
 
     $scope.logout = function() {
         $cookies.remove('user');
@@ -82,13 +79,14 @@ angular.module('advertioApp.controllers', [])
 
 	queryService.getBoards().then(function(response){
 		$scope.currentQuery = response.data;
-		console.log($scope.currentQuery);
-		$scope.Buffer = $scope.currentQuery.split("-");
+		//console.log($scope.currentQuery);
+		//$scope.Buffer = $scope.currentQuery.split("-");
 
 
-		$scope.boards = new Array($scope.Buffer.length);
-		console.log($scope.Buffer);
-
+		//$scope.boards = new Array($scope.Buffer.length);
+		$scope.boards = $scope.currentQuery;
+		console.log($scope.boards);
+		/*
 		for(var i = 0; i<$scope.Buffer.length-1; i++)
 		{
 			var board = $scope.Buffer[i].split(" ");
@@ -104,29 +102,30 @@ angular.module('advertioApp.controllers', [])
 			$scope.boards[i][6] = board[6];		//YPos
 
 		}
-		console.log($scope.boards);
+		*/
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 })
 .controller('werbEditController', function($scope, $routeParams, queryService) {
     var currentId = $routeParams.id;
+    /*
     $scope.id = 0;
 		$scope.adr = 0;
 		$scope.x = 0;
 		$scope.y = 0;
 		$scope.p = 0;
 		var board = "";
+		*/
 
-    queryService.getBoards().then(function(response){
+    queryService.getBoard(currentId).then(function(response){
 		$scope.currentQuery = response.data;
-		console.log($scope.currentQuery);
-		$scope.Buffer = $scope.currentQuery.split("-");
+		//console.log($scope.currentQuery);
+		//$scope.Buffer = $scope.currentQuery.split("-");
 
+		$scope.board = $scope.currentQuery;
+		console.log($scope.board);
 
-
-		$scope.boards = new Array($scope.Buffer.length);
-		console.log($scope.Buffer);
-
+		/* Nicht mehr nötig hab es auf JSON gestellt
 		for(var i = 0; i<$scope.Buffer.length-1; i++)
 		{
 			var bBoard = $scope.Buffer[i].split(" ");
@@ -143,6 +142,7 @@ angular.module('advertioApp.controllers', [])
 				$scope.yPos = board[6];		//YPos
 			}
 		}
+		*/
 		console.log($scope.id);
 		//$scope.boards = $scope.currentQuery.boards;
 	});
@@ -207,15 +207,18 @@ angular.module('advertioApp.directives', [])
 			{
 			var Boards = scope.boards;
 			console.log(Boards);
-			for(var i = 0; i<Boards.length-1; i++){
+			//for(var i = 0; i<Boards.length-1; i++){
+			for(var i in Boards){
+				console.log(Boards[i]);
 				//console.log("here");
 				//var position = Boards[i].position;
+				/*
 				var id = String(Boards[i][0]);
 				var adr = String(Boards[i][1]);
 				var x = String(Boards[i][5]);
 				var y = String(Boards[i][6]);
 				var p = String(Boards[i][4]);
-				//console.log(x);
+				*/
 				
 				//console.log(String(Boards[i][0]));
 
@@ -228,36 +231,31 @@ angular.module('advertioApp.directives', [])
 
 				//console.log(xnew);
 				//console.log(ynew);
-				var markerString = 'Werbetafel: <a href="/werbEdit/'+ id + '">' + id + '</a><br>Preis:' + p;
+				var markerString = '<b>Werbetafel:</b>' + 
+									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
+									'<br>AdressID: ' + Boards[i].adresse+
+									'<br>GrößeX: ' + Boards[i].dimensionX+
+									'<br>GrößeY: ' + Boards[i].dimensionY+
+									'<br>Preis: ' + Boards[i].preis+
+									'<br>xPos: ' + Boards[i].xPos+
+									'<br>yPos: ' + Boards[i].yPos+
+									'<br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">Tafel editieren</a>';
 				//console.log(markerString);
 
-				L.marker([x, y],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
+				L.marker([Boards[i].xPos, Boards[i].yPos],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				//L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				}
-			}
-
-			// DEMO FIX
-
-			function updateMarker(){
-				$http.get('https://42-ways.de:8443/vehicle?vehicle_id=1').then(function(response){
-				 	var Cars = response.data.vehicles;
-					var position = Cars[0].lastposition;
-					var x = (position.latitude || 50.9488);
-					var y = (position.longitude || 6.924);
-					demomarker.setLatLng([x,y],{icon:greenIcon}).update();
-				});
 			}
 			//$interval(updateMarker, 2000);
 		}
 	};
-});
+});4
 angular.module('advertioApp.services', [])
 .factory('authService', function(config, $rootScope, $cookies, $http) {
 	var authService = {};
 
 	authService.login = function(usr){
-		var usrString = "\"" +  usr.user + " " + usr.pwd + "\""  ;
-		return $http.post(config.apiUrl + "/api/login", usrString);
+		return $http.post(config.apiUrl + "/api/login", usr);
 	};
 
 	authService.setBoard = function(board){
