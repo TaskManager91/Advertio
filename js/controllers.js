@@ -1,12 +1,10 @@
 angular.module('advertioApp.controllers', [])
 .controller('MasterCtrl', function($scope, $location, $cookies, authService) {
 	
-	$scope.logedin = true;
+	$scope.logedin = false;
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
-	$location.path('/map');
-	console.log("MAP");
 
 	if($scope.user != null)
 	{
@@ -74,12 +72,14 @@ angular.module('advertioApp.controllers', [])
 			var board = $scope.Buffer[i].split(" ");
 			console.log("boardNR" + i);
 			console.log(board);
-			$scope.boards[i] = new Array (5);
+			$scope.boards[i] = new Array (7);
 			$scope.boards[i][0] = board[0];		//ID
 			$scope.boards[i][1] = board[1];		//Adr
-			$scope.boards[i][2] = board[2];		//X
-			$scope.boards[i][3] = board[3];		//Y
-			$scope.boards[i][4] = board[4];		//p
+			$scope.boards[i][2] = board[2];		//BildX
+			$scope.boards[i][3] = board[3];		//BildY
+			$scope.boards[i][4] = board[4];		//P
+			$scope.boards[i][5] = board[5];		//XPos
+			$scope.boards[i][6] = board[6];		//YPos
 
 		}
 		console.log($scope.boards);
@@ -112,11 +112,13 @@ angular.module('advertioApp.controllers', [])
 			console.log(bBoard);
 			if(bBoard[0] == currentId)
 			{
-				$scope.id = bBoard[0];		//ID
-				$scope.adr = bBoard[1];		//Adr
-				$scope.x = bBoard[2];		//X
-				$scope.y = bBoard[3];		//Y
-				$scope.p = bBoard[4];		//p
+				$scope.id 	= bBoard[0];		//ID
+				$scope.adr 	= bBoard[1];		//Adr
+				$scope.xBild = bBoard[2];		//X
+				$scope.yBild = bBoard[3];		//Y
+				$scope.p 	= bBoard[4];		//p
+				$scope.xPos = board[5];		//XPos
+				$scope.yPos = board[6];		//YPos
 			}
 		}
 		console.log($scope.id);

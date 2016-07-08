@@ -34,8 +34,8 @@ angular.module('advertioApp.directives', [])
 				//var position = Boards[i].position;
 				var id = String(Boards[i][0]);
 				var adr = String(Boards[i][1]);
-				var x = String(Boards[i][2]);
-				var y = String(Boards[i][3]);
+				var x = String(Boards[i][5]);
+				var y = String(Boards[i][6]);
 				var p = String(Boards[i][4]);
 				//console.log(x);
 				
@@ -54,7 +54,7 @@ angular.module('advertioApp.directives', [])
 				//console.log(markerString);
 
 				L.marker([x, y],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
-				L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
+				//L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				}
 			}
 
