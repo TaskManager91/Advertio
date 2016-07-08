@@ -27,7 +27,6 @@ angular.module('advertioApp.controllers', [])
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
-	//$location.path('/map');
 
 	if($scope.user != null)
 	{
@@ -95,12 +94,14 @@ angular.module('advertioApp.controllers', [])
 			var board = $scope.Buffer[i].split(" ");
 			console.log("boardNR" + i);
 			console.log(board);
-			$scope.boards[i] = new Array (5);
+			$scope.boards[i] = new Array (7);
 			$scope.boards[i][0] = board[0];		//ID
 			$scope.boards[i][1] = board[1];		//Adr
-			$scope.boards[i][2] = board[2];		//X
-			$scope.boards[i][3] = board[3];		//Y
-			$scope.boards[i][4] = board[4];		//p
+			$scope.boards[i][2] = board[2];		//BildX
+			$scope.boards[i][3] = board[3];		//BildY
+			$scope.boards[i][4] = board[4];		//P
+			$scope.boards[i][5] = board[5];		//XPos
+			$scope.boards[i][6] = board[6];		//YPos
 
 		}
 		console.log($scope.boards);
@@ -133,11 +134,13 @@ angular.module('advertioApp.controllers', [])
 			console.log(bBoard);
 			if(bBoard[0] == currentId)
 			{
-				$scope.id = bBoard[0];		//ID
-				$scope.adr = bBoard[1];		//Adr
-				$scope.x = bBoard[2];		//X
-				$scope.y = bBoard[3];		//Y
-				$scope.p = bBoard[4];		//p
+				$scope.id 	= bBoard[0];		//ID
+				$scope.adr 	= bBoard[1];		//Adr
+				$scope.xBild = bBoard[2];		//X
+				$scope.yBild = bBoard[3];		//Y
+				$scope.p 	= bBoard[4];		//p
+				$scope.xPos = board[5];		//XPos
+				$scope.yPos = board[6];		//YPos
 			}
 		}
 		console.log($scope.id);
@@ -151,6 +154,7 @@ angular.module('advertioApp.controllers', [])
 		var y = $scope.y.toString();
 		var p = $scope.p.toString();
 		board = id +" " + adr + " " + x + " " + y +" " + p;
+		console.log(board);
         queryService.setBoard(board)
         	.success(function(data, status, headers, config) {
         		console.log(data);
@@ -171,6 +175,7 @@ angular.module('advertioApp.controllers', [])
 
 
 });
+
 angular.module('advertioApp.directives', [])
 .directive('map', function($http, $interval) {
 	return {
@@ -207,8 +212,8 @@ angular.module('advertioApp.directives', [])
 				//var position = Boards[i].position;
 				var id = String(Boards[i][0]);
 				var adr = String(Boards[i][1]);
-				var x = String(Boards[i][2]);
-				var y = String(Boards[i][3]);
+				var x = String(Boards[i][5]);
+				var y = String(Boards[i][6]);
 				var p = String(Boards[i][4]);
 				//console.log(x);
 				
@@ -227,7 +232,7 @@ angular.module('advertioApp.directives', [])
 				//console.log(markerString);
 
 				L.marker([x, y],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
-				L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
+				//L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				}
 			}
 
