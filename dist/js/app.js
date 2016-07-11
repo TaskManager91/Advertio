@@ -23,9 +23,10 @@ angular.module('advertioApp',['ui.bootstrap',
     apiUrl: 'http://advertioend.azurewebsites.net'
 });
 angular.module('advertioApp.controllers', [])
-.controller('MasterCtrl', function($scope, $location, $cookies, authService) {
+.controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope) {
 	
 	$scope.logedin = false;
+	$rootScope.streaming = false;
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
@@ -171,14 +172,21 @@ angular.module('advertioApp.controllers', [])
 
 
 })
-.controller('streamController', function(config, $scope, $routeParams, queryService, $interval) {
+.controller('streamController', function(config, $scope, $routeParams, queryService, $interval, $rootScope) {
     $scope.currentId = $routeParams.id;
-    $scope.stream = false;
+    $scope.stream = 0;
     $scope.streamURL = "";
+    $rootScope.streaming = true;
+    $rootScope.timer = 1;
+    $rootScope.videoList = [];
 
     var tafel = $interval(function(){
-    	console.log($routeParams.id);
-    	queryService.getBoard($routeParams.id).then(function(response){
+
+    	$rootScope.timer--;
+
+    	if($rootScope.timer == 0)
+    	{
+    		queryService.getBoard($routeParams.id).then(function(response){
     		console.log($routeParams.id);
 			$scope.currentQuery = response.data;
 			$scope.board = $scope.currentQuery;
@@ -187,14 +195,27 @@ angular.module('advertioApp.controllers', [])
 			if($scope.board.stream != "empty")
 			{
 				$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
-				$scope.stream = true;
+
+				if($scope.board.stream == "sa")
+					$rootScope.timer = 5;
+
+				if($scope.board.stream == "mm")
+					$rootScope.timer = 40;
+
+				//Double buffering bitch
+				if($scope.stream == 1)
+					$scope.stream = 2;
+				else if($scope.stream == 2 || $scope.stream == 0)
+					$scope.stream = 1;
+
 				$scope.board.streamOld = $scope.board.stream;
 				$scope.board.stream = "empty";
 			}
 			else
 			{
-				$scope.stream = false;
+				$scope.stream = 0;
 				$scope.board.streamOld = $scope.board.stream;
+				$rootScope.timer = 10;
 			}
 
 			queryService.setBoard($scope.board)
@@ -205,9 +226,11 @@ angular.module('advertioApp.controllers', [])
 	  					console.log("setBoardFAIL");
 	  			});
 		});
+    	}
+    	
 
-    	console.log("blah");
-    }, 35000);
+    	console.log($rootScope.timer);
+    }, 1000);
 		
 });
 
