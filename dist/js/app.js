@@ -172,48 +172,43 @@ angular.module('advertioApp.controllers', [])
 
 })
 .controller('streamController', function(config, $scope, $routeParams, queryService, $interval) {
-    var currentId = $routeParams.id;
+    $scope.currentId = $routeParams.id;
     $scope.stream = false;
-    $scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
+    $scope.streamURL = "";
 
-    var tafel = $interval(function(currentId){
-    	if($scope.stream)
-			$scope.stream = false;
-		else
-			$scope.stream = true;
-
-		$scope.streamURL = config.apiUrl  + "/api/stream/" + "sa";
-
-    	console.log("blah");
-    }, 30000);
-
-
-    	/*
-		queryService.getBoard(currentId).then(function(response){
+    var tafel = $interval(function(){
+    	console.log($routeParams.id);
+    	queryService.getBoard($routeParams.id).then(function(response){
+    		console.log($routeParams.id);
 			$scope.currentQuery = response.data;
-
 			$scope.board = $scope.currentQuery;
+
+
 			if($scope.board.stream != "empty")
+			{
+				$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
 				$scope.stream = true;
+				$scope.board.streamOld = $scope.board.stream;
+				$scope.board.stream = "empty";
+			}
 			else
+			{
 				$scope.stream = false;
+				$scope.board.streamOld = $scope.board.stream;
+			}
 
-			//$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
-			$scope.board.stream = "empty";
-
-			queryService.setBoard(board)
+			queryService.setBoard($scope.board)
 	        	.success(function(data, status, headers, config) {
-	    			
-	    			//change path specific on user rights
-	    			$location.path('/map');
+	        		console.log("setBoardSuccess");
 	  			})
 	  			.error(function(data, status, headers, config) {
-
+	  					console.log("setBoardFAIL");
 	  			});
-
-			console.log($scope.board);
 		});
-		*/
+
+    	console.log("blah");
+    }, 35000);
+		
 });
 
 angular.module('advertioApp.directives', [])
