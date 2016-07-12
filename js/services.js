@@ -38,6 +38,10 @@ angular.module('advertioApp.services', [])
 		setBoard: function(board)
 		{
 			return $http.post(config.apiUrl  + '/api/board', board);
+		},
+		getVideos: function()
+		{
+			return $http.get(config.apiUrl  + '/api/stream');
 		}
 	}
 });

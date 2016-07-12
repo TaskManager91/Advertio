@@ -180,14 +180,23 @@ angular.module('advertioApp.controllers', [])
     $rootScope.timer = 1;
     $rootScope.videoList = [];
 
+
+	queryService.getVideos().then(function(response){
+		$scope.bufferList = response.data;
+		$rootScope.videoList = $scope.bufferList;
+		console.log($rootScope.videoList);
+
+	});
+
     var tafel = $interval(function(){
 
     	$rootScope.timer--;
 
     	if($rootScope.timer == 0)
     	{
+    		console.log($rootScope.videoList.length);
     		queryService.getBoard($routeParams.id).then(function(response){
-    		console.log($routeParams.id);
+    		//console.log($routeParams.id);
 			$scope.currentQuery = response.data;
 			$scope.board = $scope.currentQuery;
 
@@ -196,11 +205,14 @@ angular.module('advertioApp.controllers', [])
 			{
 				$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
 
-				if($scope.board.stream == "sa")
-					$rootScope.timer = 5;
+				for(var vid = 0; vid<=$rootScope.videoList.length-1; vid++)
+				{
+					console.log($rootScope.videoList[vid].name);
+					if($rootScope.videoList[vid].name == $scope.board.stream)
+						$rootScope.timer = $rootScope.videoList[vid].length;
+				}
 
-				if($scope.board.stream == "mm")
-					$rootScope.timer = 40;
+				console.log($rootScope.timer);
 
 				//Double buffering bitch
 				if($scope.stream == 1)
@@ -229,7 +241,7 @@ angular.module('advertioApp.controllers', [])
     	}
     	
 
-    	console.log($rootScope.timer);
+    	//console.log($rootScope.timer);
     }, 1000);
 		
 });
@@ -349,6 +361,10 @@ angular.module('advertioApp.services', [])
 		setBoard: function(board)
 		{
 			return $http.post(config.apiUrl  + '/api/board', board);
+		},
+		getVideos: function()
+		{
+			return $http.get(config.apiUrl  + '/api/stream');
 		}
 	}
 });
