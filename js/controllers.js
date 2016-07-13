@@ -3,6 +3,7 @@ angular.module('advertioApp.controllers', [])
 	
 	$scope.logedin = false;
 	$rootScope.streaming = false;
+	$rootScope.aktiv = "map";
 	$scope.user = $cookies.get('user');
 	 $scope.alerts = [
   	];
@@ -54,7 +55,8 @@ angular.module('advertioApp.controllers', [])
 		$location.path('/');
     };
 })
-.controller('mapController', function($scope, queryService) {
+.controller('mapController', function($scope, queryService, $rootScope) {
+	$rootScope.aktiv = "map";
 
 	queryService.getBoards().then(function(response){
 		$scope.currentQuery = response.data;
@@ -85,8 +87,9 @@ angular.module('advertioApp.controllers', [])
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 })
-.controller('werbEditController', function($scope, $routeParams, queryService) {
+.controller('werbEditController', function($scope, $routeParams, queryService, $rootScope) {
     var currentId = $routeParams.id;
+    $rootScope.aktiv = "werbedit";
     /*
     $scope.id = 0;
 		$scope.adr = 0;

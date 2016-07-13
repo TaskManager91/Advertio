@@ -55,12 +55,15 @@ angular.module('advertioApp.directives', [])
 				//console.log(ynew);
 				var markerString = '<h2>Werbetafel:</h2>' + 
 									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
+									'<br>werbetafelMacAdresse: ' + Boards[i].werbetafelMacAdresse+
 									'<br>AdressID: ' + Boards[i].adresse+
 									'<br>GrößeX: ' + Boards[i].dimensionX+
 									'<br>GrößeY: ' + Boards[i].dimensionY+
 									'<br>Preis: ' + Boards[i].preis+
 									'<br>xPos: ' + Boards[i].xPos+
 									'<br>yPos: ' + Boards[i].yPos+
+									'<br>nächster Stream: ' + Boards[i].stream+
+									'<br>letzer Stream: ' + Boards[i].streamOld+
 									'<br><br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">editieren</a> ' +
 									'<a href ="/stream/' +Boards[i].werbetafelId + '">stream</a>';
 				//console.log(markerString);
