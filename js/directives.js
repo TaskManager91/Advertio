@@ -34,8 +34,8 @@ angular.module('advertioApp.directives', [])
 
 			    var modalInstance = $uibModal.open({
 			      animation: animationsEnabled,
-			      templateUrl: 'createBoard.html',
-			      controller: 'ModalInstanceCtrl',
+			      templateUrl: 'createModal.html',
+			      controller: 'latModalCtrl',
 			      size: '',
 			      resolve: {
 			        item: function () {

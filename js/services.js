@@ -56,13 +56,21 @@ angular.module('advertioApp.services', [])
 		{
 			return $http.get(config.apiUrl  + '/api/Board');
 		},
+		createBoard: function(board)
+		{
+			return $http.post(config.apiUrl  + '/api/board', board);
+		},
 		getBoard: function(id)
 		{
 			return $http.get(config.apiUrl + '/api/board/'+id);
 		},
 		setBoard: function(board)
 		{
-			return $http.post(config.apiUrl  + '/api/board', board);
+			return $http.put(config.apiUrl  + '/api/board/1', board);
+		},
+		deleteBoard: function(board)
+		{
+			return $http.delete(config.apiUrl  + '/api/board/'+board.werbetafelId);
 		},
 		getVideos: function()
 		{

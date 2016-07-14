@@ -14,6 +14,40 @@
 
 </head>
 <body ng-controller="MasterCtrl">
+
+  <script type="text/ng-template" id="editModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Werbetafel hier anlegen?</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+              <div class="col-md-5"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
+              <div class="col-md-3">
+                <div class="form-group" style="margin-top:10px">
+                  <input type="text" class="form-control" name="id" ng-model="item" required>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok(item)"><font color="white">OK</font></button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="anModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Werbetafel anlegen</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                Bitte über die Karte anlegen!
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()" ><font color="white">OK</font></button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()" >Cancel</button>
+        </div>
+    </script>
   
   <div ng-if="logedin && !streaming" id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
     <nav class="navbar navbar-default" style="background:#31859B; margin-left:-100px">
@@ -24,7 +58,8 @@
         <ul class="nav navbar-nav" style="">
           <li><img src="/img/logo.png" style="height:50px"></li>
           <li ng-style="aktiv === 'map' ? {'background':'#47ABC5'} : {}"><a href="/map" class="active"><font color="white">Werbetafeln</font></a></li>
-          <li ng-style="aktiv === 'werbedit' ? {'background':'#47ABC5'} : {}"><a href="/werbEdit/2"><font color="white">Werbetafel Editieren</font></a></li>
+          <li ng-style="aktiv === 'werbedit' ? {'background':'#47ABC5'} : {}"><a ng-click="werbEdit()" href=""><font color="white">Werbetafel editieren</font></a></li>
+          <li ng-style="aktiv === 'werban' ? {'background':'#47ABC5'} : {}"><a ng-click="werbAn()" href=""><font color="white">Werbetafel anlegen</font></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><font color="white">Kontakt</font></a></li>

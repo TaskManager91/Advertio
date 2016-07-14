@@ -1,5 +1,5 @@
 angular.module('advertioApp.controllers', [])
-.controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope) {
+.controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope, $uibModal) {
 	
 	$scope.logedin = false;
 	$rootScope.streaming = false;
@@ -47,6 +47,44 @@ angular.module('advertioApp.controllers', [])
 	    $scope.alerts.splice(index, 1);
 	  };
 
+	$scope.werbEdit = function() {
+
+		var modalInstance = $uibModal.open({
+		      animation: true,
+		      templateUrl: 'editModal.html',
+		      controller: 'editModalCtrl',
+		      size: '',
+		      resolve: {
+		        item: function () {
+		          return 0;
+		        }
+		      }
+		    });
+
+		    modalInstance.result.then(function (item) {
+		    	$location.path('/werbEdit/'+item);
+		    }, function () {
+		     
+		    });
+		
+    };
+
+    $scope.werbAn = function() {
+
+		var modalInstance = $uibModal.open({
+		      animation: true,
+		      templateUrl: 'anModal.html',
+		      controller: 'anModalCtrl',
+		      size: ''
+		    });
+
+		    modalInstance.result.then(function () {
+		    }, function () {
+		     
+		    });
+		
+    };
+
     $scope.logout = function() {
         $cookies.remove('user');
         $cookies.remove('token');
@@ -87,7 +125,8 @@ angular.module('advertioApp.controllers', [])
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 })
-.controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService) {
+.controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService,$location) {
+	$rootScope.aktiv = "werban";
 	console.log(latllngService.getLat());
 	console.log(latllngService.getLng()); 
 	$scope.board = {};
@@ -101,8 +140,33 @@ angular.module('advertioApp.controllers', [])
 	$scope.board.xPos = latllngService.getLat();
 	$scope.board.yPos = latllngService.getLng();
 
+	$scope.saveBoard = function () {
+		/* Dank Json support nicht mehr nötig!
+		var id = $scope.id.toString();
+		var adr = $scope.adr.toString();
+		var x = $scope.x.toString();
+		var y = $scope.y.toString();
+		var p = $scope.p.toString();
+		board = id +" " + adr + " " + x + " " + y +" " + p;
+		console.log(board);
+		*/
+        queryService.createBoard($scope.board)
+        	.success(function(data, status, headers, config) {
+    			
+    			//change path specific on user rights
+    			$location.path('/map');
+  			})
+  			.error(function(data, status, headers, config) {
+
+  			});
+    };
+
+    $scope.dismiss = function () {
+    	$location.path('/map');
+    };
+
 })
-.controller('werbEditController', function($scope, $routeParams, queryService, $rootScope) {
+.controller('werbEditController', function($scope, $routeParams, queryService, $rootScope, $location) {
     var currentId = $routeParams.id;
     $rootScope.aktiv = "werbedit";
     /*
@@ -158,7 +222,7 @@ angular.module('advertioApp.controllers', [])
 		board = id +" " + adr + " " + x + " " + y +" " + p;
 		console.log(board);
 		*/
-        queryService.setBoard(board)
+        queryService.setBoard($scope.board)
         	.success(function(data, status, headers, config) {
     			
     			//change path specific on user rights
@@ -169,9 +233,48 @@ angular.module('advertioApp.controllers', [])
   			});
     };
 
+    $scope.deleteBoard = function () {
+
+        queryService.deleteBoard($scope.board)
+        	.success(function(data, status, headers, config) {
+    			
+    			//change path specific on user rights
+    			$location.path('/map');
+  			})
+  			.error(function(data, status, headers, config) {
+
+  			});
+    };
+
+    $scope.dismiss = function () {
+    	$location.path('/map');
+    };
+
 
 })
-.controller('ModalInstanceCtrl', function($scope, $uibModalInstance, item) {
+.controller('anModalCtrl', function($scope, $uibModalInstance) {
+	$scope.ok = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+})
+.controller('editModalCtrl', function($scope, $uibModalInstance, item) {
+	$scope.item = item;
+
+	$scope.ok = function (item) {
+    $uibModalInstance.close($scope.item);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+})
+.controller('latModalCtrl', function($scope, $uibModalInstance, item) {
 	$scope.item = item;
 
 	$scope.ok = function () {

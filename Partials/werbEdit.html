@@ -92,12 +92,15 @@
     <div class="col-md-2"></div>  
     <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="saveBoard()">Speichern</button> </div><!-- Single button -->
     <div class="col-md-1"></div>
-    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" href="/map">Abbrechen</button> </div><!-- Single button -->
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="dismiss()">Abbrechen</button> </div><!-- Single button -->
     <div class="col-md-1"></div>
-    <div class="col-md-2"></div><!-- hier war der Delete button -->
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard()">Löschen</button></div><!-- hier war der Delete button -->
     <div class="col-md-2"></div> 
   </div>  
 </div>
 <div ng-if="keinBoard">
-  <h1>Werbetafel nicht gefunden!</h1>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10"><h3>Werbetafel nicht gefunden!</h3></div>
+  </div> 
 </div>
