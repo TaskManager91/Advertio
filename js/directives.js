@@ -87,11 +87,11 @@ angular.module('advertioApp.directives', [])
 									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
 									'<br>werbetafelMacAdresse: ' + Boards[i].werbetafelMacAdresse+
 									'<br>AdressID: ' + Boards[i].adresse+
-									'<br>GrößeX: ' + Boards[i].dimensionX+
-									'<br>GrößeY: ' + Boards[i].dimensionY+
+									'<br>Bildgröße (X-Achse): ' + Boards[i].dimensionX+
+									'<br>Bildgröße (Y-Achse): ' + Boards[i].dimensionY+
 									'<br>Preis: ' + Boards[i].preis+
-									'<br>xPos: ' + Boards[i].xPos+
-									'<br>yPos: ' + Boards[i].yPos+
+									'<br>Längengrad: ' + Boards[i].xPos+
+									'<br>Breitengrad: ' + Boards[i].yPos+
 									'<br>nächster Stream: ' + Boards[i].stream+
 									'<br>letzer Stream: ' + Boards[i].streamOld+
 									'<br><br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">editieren</a> ' +

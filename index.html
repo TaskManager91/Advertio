@@ -31,7 +31,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok(item)"><font color="white">OK</font></button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Abbruch</button>
         </div>
     </script>
     <script type="text/ng-template" id="anModal.html">
@@ -45,7 +45,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()" ><font color="white">OK</font></button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()" >Cancel</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()" >Abbruch</button>
         </div>
     </script>
   
@@ -66,7 +66,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><font color="white">Kontakt</font></a></li>
-          <li><a href="#" ng-click="logout()"><font color="white">Logout</font></a></li>
+          <li><a href="#" ng-click="logout()"><font color="white">Ausloggen</font></a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -80,7 +80,7 @@
             <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
             <div class="col-md-10 col-md-offset-1 content-box modal-content">
                 <h4 class="content-box-header content-box-header-alt">
-                    <p>Advertio <small>Login to your account.</small></p>
+                    <p>Advertio <small>Einloggen:</small></p>
                 </h4>
                 <div class="content-box-wrapper">
                     <div class="form-group">
@@ -102,7 +102,7 @@
                     <div class="form-group">
                         <a href="" title="Recover password">Passwort vergessen?</a>
                     </div>
-                    <button ng-click="submit(usr)" class="btn btn-success btn-block">Sign In</button><br/>
+                    <button ng-click="submit(usr)" class="btn btn-success btn-block">Einloggen</button><br/>
                 </div>
             </div>
         </form>
