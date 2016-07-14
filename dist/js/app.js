@@ -394,16 +394,17 @@ angular.module('advertioApp.directives', [])
         },
 		link: function(scope) 
 		{	
-			var greenIcon = L.icon({
-			    iconUrl: 'img/Icons/car_green.png',
-			    shadowUrl: 'img/Icons/shadow.png',
 
-			    iconSize:     [96, 64], // size of the icon
-			    shadowSize:   [64, 64], // size of the shadow
-			    iconAnchor:   [31, 63], // point of the icon which will correspond to marker's location
-			    shadowAnchor: [32, 40],  // the same for the shadow
-			    popupAnchor:  [1, -61] // point from which the popup should open relative to the iconAnchor
-			});
+			var icon = L.Icon.extend({
+		       options: {
+			     iconSize:     [50, 50], // size of the icon
+			     iconAnchor:   [25, 45], // point of the icon which will correspond to marker's location
+			     popupAnchor:  [0, -45] // point from which the popup should open relative to the iconAnchor
+			       }
+			   });
+
+		   var kTafel = new icon({ iconUrl: '/img/Icons/iconG.png'}),
+		     gTafel = new icon({iconUrl: '/img/Icons/iconK.png'});
 
 			var markers = {};			
 			var map = L.map('map').setView([50.935824, 6.951172], 13);
@@ -484,7 +485,10 @@ angular.module('advertioApp.directives', [])
 									'<a href ="/stream/' +Boards[i].werbetafelId + '">stream</a>';
 				//console.log(markerString);
 
-				L.marker([Boards[i].xPos, Boards[i].yPos],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
+				if(Boards[i].dimensionX <= 400)
+					L.marker([Boards[i].xPos, Boards[i].yPos],{icon:kTafel}).addTo(map).bindPopup(markerString);
+				else
+					L.marker([Boards[i].xPos, Boards[i].yPos],{icon:gTafel}).addTo(map).bindPopup(markerString);
 				//L.marker([50.9488, 6.924],{icon:greenIcon}).addTo(map).bindPopup(markerString);	
 				}
 			}
