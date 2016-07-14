@@ -23,6 +23,31 @@ angular.module('advertioApp.services', [])
 	};
 	return authService;
 })
+.factory('latllngService', function(config, $rootScope, $cookies, $http) {
+	var latllngService = {};
+	var lat = 0;
+	var lng = 0;
+
+	latllngService.setLat = function(buffer){
+		lat = buffer;
+		return "OK";
+	};
+
+	latllngService.setLng = function(buffer){
+		lng = buffer;
+		return "OK";
+	};
+
+	latllngService.getLat = function(){
+		return lat;
+	};
+
+	latllngService.getLng = function(){
+		return lng;
+	};
+
+	return latllngService;
+})
 .factory('queryService', function(config, $http) {
 	
 	// factory function body 

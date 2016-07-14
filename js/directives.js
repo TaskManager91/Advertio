@@ -1,5 +1,5 @@
 angular.module('advertioApp.directives', [])
-.directive('map', function($http, $interval) {
+.directive('map', function($http, $interval, $uibModal, latllngService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -24,6 +24,35 @@ angular.module('advertioApp.directives', [])
 			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				}).addTo(map);
+
+			//Right click on the map activated
+			map.on('contextmenu', function(e) {
+			    //alert(e.latlng);
+			    console.log("BLAH");
+			    console.log(e.latlng);
+			    var animationsEnabled = true;
+
+			    var modalInstance = $uibModal.open({
+			      animation: animationsEnabled,
+			      templateUrl: 'createBoard.html',
+			      controller: 'ModalInstanceCtrl',
+			      size: '',
+			      resolve: {
+			        item: function () {
+			          return e;
+			        }
+			      }
+			    });
+
+			    modalInstance.result.then(function (latlng) {
+			      var setLat = latllngService.setLat(latlng.lat);
+			      var setLng = latllngService.setLng(latlng.lng);
+
+			    }, function () {
+			     
+			    });
+			});
+
 
 			if(scope.boards != null)	
 			{

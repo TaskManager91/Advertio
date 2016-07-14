@@ -1,2 +1,15 @@
+
+<script type="text/ng-template" id="createBoard.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Werbetafel hier anlegen?</h3>
+        </div>
+        <div class="modal-body">
+            Koordinaten: <b>{{ item.latlng }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()"><a href="/werbErst"><font color="white">OK</font></a></button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
 <div ng-if="currentQuery" class="row">
 <div map ng-if="currentQuery" boards="boards" class="col-md-12 ar-map" style="height:100%; left:0; position: fixed !important; top: 50px; width: 100%" id="map"></div>

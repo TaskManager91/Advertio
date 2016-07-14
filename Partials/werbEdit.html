@@ -1,99 +1,103 @@
 
-
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-10"><h2>Werbetafel-Editieren</h2></div>
 </div>  
   <br />
   <br />
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-    <input type="text" class="form-control" name="id" ng-model="board.werbetafelId" required>
-    </div>
+<div ng-if="board">
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+      <input type="text" class="form-control" name="id" ng-model="board.werbetafelId" required>
+      </div>
+      </div>
+      <div class="col-md-5"></div> 
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.werbetafelMacAdresse" required>
+      </div>
     </div>
     <div class="col-md-5"></div> 
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Standort</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.adresse" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>      
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (X-Achse)</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.dimensionX" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>   
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (Y-Achse)</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.dimensionY" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>  
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.preis" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>    
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.xPos" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div><!-- Single button -->
+    <div class="col-md-3">
+      <div class="form-group" style="margin-top:10px">
+        <input type="text" class="form-control" name="id" ng-model="board.yPos" required>
+      </div>
+    </div>
+    <div class="col-md-5"></div> 
+  </div>
+  <h1><br /></h1>
+  <br />
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="saveBoard()">Speichern</button> </div><!-- Single button -->
+    <div class="col-md-1"></div>
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" href="/map">Abbrechen</button> </div><!-- Single button -->
+    <div class="col-md-1"></div>
+    <div class="col-md-2"></div><!-- hier war der Delete button -->
+    <div class="col-md-2"></div> 
+  </div>  
 </div>
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.werbetafelMacAdresse" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
+<div ng-if="keinBoard">
+  <h1>Werbetafel nicht gefunden!</h1>
 </div>
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Standort</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.adresse" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>      
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (X-Achse)</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.dimensionX" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>   
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (Y-Achse)</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.dimensionY" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>  
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.preis" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>    
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.xPos" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div><!-- Single button -->
-  <div class="col-md-3">
-    <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.yPos" required>
-    </div>
-  </div>
-  <div class="col-md-5"></div> 
-</div>
-<h1><br /></h1>
-<br />
-<div class="row">
-  <div class="col-md-2"></div>  
-  <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="saveBoard()">Speichern</button> </div><!-- Single button -->
-  <div class="col-md-1"></div>
-  <div class="col-md-2"><button type="button" class="btn btn-default btn-block" href="/map">Abbrechen</button> </div><!-- Single button -->
-  <div class="col-md-1"></div>
-  <div class="col-md-2"></div><!-- hier war der Delete button -->
-  <div class="col-md-2"></div> 
-</div>  

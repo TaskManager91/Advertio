@@ -12,6 +12,7 @@ angular.module('advertioApp',['ui.bootstrap',
 	$routeProvider
 		.when('/', {templateUrl: 'Partials/login.html'})
 		.when('/map', {templateUrl: 'Partials/map.html', controller: 'mapController'})
+		.when('/werbErst', {templateUrl: 'Partials/werbErst.html', controller: 'werbErstController'})
 		.when('/werbEdit/:id', {templateUrl: 'Partials/werbEdit.html', controller: 'werbEditController'})
 		.when('/stream/:id', {templateUrl: 'Partials/stream.html', controller: 'streamController'});
 	$httpProvider.defaults.useXDomain = true; 

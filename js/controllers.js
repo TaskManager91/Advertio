@@ -87,6 +87,21 @@ angular.module('advertioApp.controllers', [])
 		//$scope.boards = $scope.currentQuery.boards;
 	});
 })
+.controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService) {
+	console.log(latllngService.getLat());
+	console.log(latllngService.getLng()); 
+	$scope.board = {};
+	$scope.board.werbetafelMacAdresse = "00:00:00:00:00";
+	$scope.board.adresse = 0;
+	$scope.board.dimensionX = 0;
+	$scope.board.dimensionY = 0;
+	$scope.board.preis = 0;
+	$scope.board.stream = "empty";
+	$scope.board.streamOld = "empty";
+	$scope.board.xPos = latllngService.getLat();
+	$scope.board.yPos = latllngService.getLng();
+
+})
 .controller('werbEditController', function($scope, $routeParams, queryService, $rootScope) {
     var currentId = $routeParams.id;
     $rootScope.aktiv = "werbedit";
@@ -99,34 +114,39 @@ angular.module('advertioApp.controllers', [])
 		var board = "";
 		*/
 
-    queryService.getBoard(currentId).then(function(response){
-		$scope.currentQuery = response.data;
-		//console.log($scope.currentQuery);
-		//$scope.Buffer = $scope.currentQuery.split("-");
+    queryService.getBoard(currentId)
+	    .success(function(data, status, headers, config) {
+			$scope.currentQuery = data;
+			//console.log($scope.currentQuery);
+			//$scope.Buffer = $scope.currentQuery.split("-");
 
-		$scope.board = $scope.currentQuery;
-		console.log($scope.board);
+			$scope.board = $scope.currentQuery;
+			console.log($scope.board);
 
-		/* Nicht mehr nötig hab es auf JSON gestellt
-		for(var i = 0; i<$scope.Buffer.length-1; i++)
-		{
-			var bBoard = $scope.Buffer[i].split(" ");
-			console.log("boardNR" + i);
-			console.log(bBoard);
-			if(bBoard[0] == currentId)
+			/* Nicht mehr nötig hab es auf JSON gestellt
+			for(var i = 0; i<$scope.Buffer.length-1; i++)
 			{
-				$scope.id 	= bBoard[0];		//ID
-				$scope.adr 	= bBoard[1];		//Adr
-				$scope.xBild = bBoard[2];		//X
-				$scope.yBild = bBoard[3];		//Y
-				$scope.p 	= bBoard[4];		//p
-				$scope.xPos = board[5];		//XPos
-				$scope.yPos = board[6];		//YPos
+				var bBoard = $scope.Buffer[i].split(" ");
+				console.log("boardNR" + i);
+				console.log(bBoard);
+				if(bBoard[0] == currentId)
+				{
+					$scope.id 	= bBoard[0];		//ID
+					$scope.adr 	= bBoard[1];		//Adr
+					$scope.xBild = bBoard[2];		//X
+					$scope.yBild = bBoard[3];		//Y
+					$scope.p 	= bBoard[4];		//p
+					$scope.xPos = board[5];		//XPos
+					$scope.yPos = board[6];		//YPos
+				}
 			}
-		}
-		*/
-		//$scope.boards = $scope.currentQuery.boards;
-	});
+			*/
+			//$scope.boards = $scope.currentQuery.boards;
+		})
+		.error(function(data, status, headers, config) {
+			$scope.keinBoard = data;
+			console.log($scope.board);
+  	});
 
 	$scope.saveBoard = function () {
 		/* Dank Json support nicht mehr nötig!
@@ -149,6 +169,18 @@ angular.module('advertioApp.controllers', [])
   			});
     };
 
+
+})
+.controller('ModalInstanceCtrl', function($scope, $uibModalInstance, item) {
+	$scope.item = item;
+
+	$scope.ok = function () {
+    $uibModalInstance.close($scope.item.latlng);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 
 })
 .controller('streamController', function(config, $scope, $routeParams, queryService, $interval, $rootScope) {
