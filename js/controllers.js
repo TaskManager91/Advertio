@@ -95,6 +95,7 @@ angular.module('advertioApp.controllers', [])
 })
 .controller('mapController', function($scope, queryService, $rootScope) {
 	$rootScope.aktiv = "map";
+	$rootScope.streaming = false;
 
 	queryService.getBoards().then(function(response){
 		$scope.currentQuery = response.data;
@@ -296,6 +297,7 @@ angular.module('advertioApp.controllers', [])
 
     $rootScope.streamBoard  ={};
 
+	/*
     //TAFEL HOLEN!
     queryService.getBoard($scope.currentId)
 	    .success(function(data, status, headers, config) {
@@ -321,6 +323,7 @@ angular.module('advertioApp.controllers', [])
 			$scope.keinBoard = data;
 			console.log($scope.board);
   	});
+		*/
 
 	//VIDEO LISTE HOLEN
 	queryService.getVideos().then(function(response){
@@ -334,7 +337,7 @@ angular.module('advertioApp.controllers', [])
     var tafel = $interval(function(){
 
     	//4 sek vor ende, wird setStream gecalled
-    	if($rootScope.timer == 3)
+    	if($rootScope.timer == 2)
     	{
     		queryService.getBoard($scope.currentId)
 			    .success(function(data, status, headers, config) {
@@ -362,7 +365,7 @@ angular.module('advertioApp.controllers', [])
 
 
     	//Abgelaufen- holen "stream" feld aus Werbetafel und setze es dann auf empty
-    	if($rootScope.timer == 0)
+    	if($rootScope.timer <= 0)
     	{
     		console.log($rootScope.videoList.length);
     		queryService.getBoard($routeParams.id).then(function(response){
@@ -397,7 +400,7 @@ angular.module('advertioApp.controllers', [])
 				{
 					$scope.stream = 0;
 					$scope.board.streamOld = $scope.board.stream;
-					$rootScope.timer = 10;
+					$rootScope.timer = 5;
 				}
 
 				queryService.setBoard($scope.board)
@@ -414,8 +417,15 @@ angular.module('advertioApp.controllers', [])
     	//console.log($rootScope.timer);
     }, 2000);
 
+    
     $scope.dismiss = function () {
+    	$interval.cancel(tafel);
+        tafel = undefined;
 
+    	$location.path('/map');
+	    $rootScope.streaming = false;
+
+	    /*
     	queryService.getBoard($scope.currentId)
 		    .success(function(data, status, headers, config) {
 				$scope.currentQuery = data;
@@ -433,14 +443,15 @@ angular.module('advertioApp.controllers', [])
 					.error(function(data, status, headers, config) {
 						console.log(data);
 			  	});
-	    	$location.path('/map');
-	    	$rootScope.streaming = false;
+	    	
 
 			})
 			.error(function(data, status, headers, config) {
 				$scope.keinBoard = data;
 				console.log($scope.board);
 	  	});
+	  	*/
     	
     };
+    
 });

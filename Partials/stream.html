@@ -1,23 +1,15 @@
-{{timer}}<button type="button" class="btn btn-default btn-block" ng-click="dismiss()">delete</button> 
-<div>
-	<video width="0" height="0" controls="controls" >
-        <source src="{{streamBufferURL}}" type="video/mp4">
-    </video>
-    <video width="0" height="0" controls="controls" >
-        <source src="{{streamBufferURL}}" type="video/mp4">
-    </video>
-</div>
-<div ng-if="stream == 0" class="col-md-12">
+<div ng-if="stream == 0">
 	<img width="100%" height="100%" src="img/advertBack.png"></img>
 </div>
-<div ng-if="stream == 1"  class="col-md-12">
+<div ng-if="stream == 1" >
 	<video width="100%" height="100%" controls="controls" autoplay="autoplay">
         <source src="{{streamURL}}" type="video/mp4">
     </video>
 </div>
-<div ng-if="stream == 2"  class="col-md-12">
+<div ng-if="stream == 2" >
 	<video width="100%" height="100%" controls="controls" autoplay="autoplay">
         <source src="{{streamURL}}" type="video/mp4">
     </video>
 </div>
+<button type="button" class="btn btn-default btn-block" ng-click="dismiss()">back</button> 
 
