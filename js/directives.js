@@ -84,18 +84,16 @@ angular.module('advertioApp.directives', [])
 				//console.log(xnew);
 				//console.log(ynew);
 				var markerString = '<h2>Werbetafel:</h2>' + 
-									'<br>WerbetafelID: ' + Boards[i].werbetafelId + 
-									'<br>werbetafelMacAdresse: ' + Boards[i].werbetafelMacAdresse+
-									'<br>AdressID: ' + Boards[i].adresse+
-									'<br>Bildgröße (X-Achse): ' + Boards[i].dimensionX+
-									'<br>Bildgröße (Y-Achse): ' + Boards[i].dimensionY+
-									'<br>Preis: ' + Boards[i].preis+
-									'<br>Längengrad: ' + Boards[i].xPos+
-									'<br>Breitengrad: ' + Boards[i].yPos+
-									'<br>nächster Stream: ' + Boards[i].stream+
-									'<br>letzer Stream: ' + Boards[i].streamOld+
-									'<br><br><a href ="/werbEdit/' +Boards[i].werbetafelId + '">editieren</a> ' +
-									'<a href ="/stream/' +Boards[i].werbetafelId + '">stream</a>';
+									'<table><tr><td>WerbetafelID:</td><td>' + Boards[i].werbetafelId + '</td></tr>' +
+									'<tr><td>werbetafelMacAdresse: &nbsp &nbsp  </td><td> ' + Boards[i].werbetafelMacAdresse+'</td></tr>' +
+									'<tr><td>AdressID: </td><td>' + Boards[i].adresse+'</td></tr>' +
+									'<tr><td>Bildgröße (X-Achse): </td><td>' + Boards[i].dimensionX+'</td></tr>' +
+									'<tr><td>Bildgröße (Y-Achse): </td><td>' + Boards[i].dimensionY+'</td></tr>' +
+									'<tr><td>Preis: </td><td>' + Boards[i].preis+'</td></tr>' +
+									'<tr><td>Längengrad: </td><td>' + Boards[i].xPos+ '</td></tr>' +
+									'<tr><td>Breitengrad: </td><td>' + Boards[i].yPos+ '</table>'+
+									'<br><br><button type="button" class="btn btn-primary"><a href ="/werbEdit/' +Boards[i].werbetafelId + '"><font color="white">editieren &nbsp<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></font></a> </button>' + '&nbsp' +
+									'<button type="button" class="btn btn-primary" ><a href ="/stream/' +Boards[i].werbetafelId + '"><font color="white">stream &nbsp<span class="glyphicon glyphicon-film" aria-hidden="true"></span></font></a> </button>';
 				//console.log(markerString);
 
 				if(Boards[i].dimensionX <= 400)

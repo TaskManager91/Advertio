@@ -93,7 +93,7 @@ angular.module('advertioApp.controllers', [])
 		$location.path('/');
     };
 })
-.controller('mapController', function($scope, queryService, $rootScope) {
+.controller('mapController', function($scope, queryService, $rootScope,  $uibModal) {
 	$rootScope.aktiv = "map";
 	$rootScope.streaming = false;
 
@@ -125,6 +125,27 @@ angular.module('advertioApp.controllers', [])
 		*/
 		//$scope.boards = $scope.currentQuery.boards;
 	});
+
+	$scope.sureStream = function(streamID) {
+
+		var modalInstance = $uibModal.open({
+		      animation: true,
+		      templateUrl: 'sureStreamModal.html',
+		      controller: 'sureStreamModalCtrl',
+		      size: '',
+		      resolve: {
+		        item: function () {
+		          return streamID;
+		        }
+		      }
+		    });
+
+		    modalInstance.result.then(function (item) {
+		    	$location.path('/stream/'+item);
+		    }, function () {
+		     
+		    });
+    };
 })
 .controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService,$location) {
 	$rootScope.aktiv = "werban";
@@ -251,6 +272,18 @@ angular.module('advertioApp.controllers', [])
     	$location.path('/map');
     };
 
+
+})
+.controller('sureStreamModalCtrl', function($scope, $uibModalInstance, item) {
+	$scope.item = item;
+
+	$scope.ok = function (item) {
+    $uibModalInstance.close($scope.item);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 
 })
 .controller('anModalCtrl', function($scope, $uibModalInstance) {
