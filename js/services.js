@@ -72,6 +72,18 @@ angular.module('advertioApp.services', [])
 		{
 			return $http.delete(config.apiUrl  + '/api/board/'+board.werbetafelId);
 		},
+		createStream: function(board)
+		{
+			return $http.post(config.apiUrl  + '/api/stream', board);
+		},
+		setStream: function(board)
+		{
+			return $http.put(config.apiUrl  + '/api/stream/1', board);
+		},
+		deleteStream: function(board)
+		{
+			return $http.delete(config.apiUrl  + '/api/stream/'+board.werbetafelId);
+		},
 		getVideos: function()
 		{
 			return $http.get(config.apiUrl  + '/api/stream');

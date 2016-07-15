@@ -311,7 +311,7 @@ angular.module('advertioApp.controllers', [])
   };
 
 })
-.controller('streamController', function(config, $scope, $routeParams, queryService, $interval, $rootScope) {
+.controller('streamController', function(config, $scope, $routeParams, queryService, $interval, $rootScope, $location) {
     $scope.currentId = $routeParams.id;
     $scope.stream = 0;
     $scope.streamURL = "";
@@ -319,7 +319,35 @@ angular.module('advertioApp.controllers', [])
     $rootScope.timer = 1;
     $rootScope.videoList = [];
 
+    $rootScope.streamBoard  ={};
 
+    //TAFEL HOLEN!
+    queryService.getBoard($scope.currentId)
+	    .success(function(data, status, headers, config) {
+			$scope.currentQuery = data;
+
+			$rootScope.streamBoard   = $scope.currentQuery;
+			console.log($rootScope.streamBoard);
+
+			// STREAM - INIT()
+			queryService.createStream($rootScope.streamBoard )
+			    .success(function(data, status, headers, config) {
+					$scope.currentQuery = data;
+
+					console.log($scope.currentQuery);
+
+				})
+				.error(function(data, status, headers, config) {
+					console.log(data);
+		  	});
+
+		})
+		.error(function(data, status, headers, config) {
+			$scope.keinBoard = data;
+			console.log($scope.board);
+  	});
+
+	//VIDEO LISTE HOLEN
 	queryService.getVideos().then(function(response){
 		$scope.bufferList = response.data;
 		$rootScope.videoList = $scope.bufferList;
@@ -327,10 +355,38 @@ angular.module('advertioApp.controllers', [])
 
 	});
 
+	//HIER UPDATEN WIR DAS VIDEO und spielen es ab...
     var tafel = $interval(function(){
 
-    	$rootScope.timer--;
+    	//4 sek vor ende, wird setStream gecalled
+    	if($rootScope.timer == 3)
+    	{
+    		queryService.getBoard($scope.currentId)
+			    .success(function(data, status, headers, config) {
+					$scope.currentQuery = data;
 
+					$rootScope.streamBoard = $scope.currentQuery;
+					console.log($rootScope.streamBoard);
+					queryService.setStream($rootScope.streamBoard )
+					    .success(function(data, status, headers, config) {
+							$scope.currentQuery = data;
+
+							console.log($scope.currentQuery);
+
+						})
+						.error(function(data, status, headers, config) {
+							console.log(data);
+				  	});
+
+				})
+				.error(function(data, status, headers, config) {
+					$scope.keinBoard = data;
+					console.log($scope.board);
+		  	});
+		}
+
+
+    	//Abgelaufen- holen "stream" feld aus Werbetafel und setze es dann auf empty
     	if($rootScope.timer == 0)
     	{
     		console.log($rootScope.videoList.length);
@@ -340,49 +396,77 @@ angular.module('advertioApp.controllers', [])
 			$scope.board = $scope.currentQuery;
 
 
-			if($scope.board.stream != "empty")
-			{
-				$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
-
-				for(var vid = 0; vid<=$rootScope.videoList.length-1; vid++)
+				if($scope.board.stream != "empty")
 				{
-					console.log($rootScope.videoList[vid].name);
-					if($rootScope.videoList[vid].name == $scope.board.stream)
-						$rootScope.timer = $rootScope.videoList[vid].length;
+					$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
+
+					for(var vid = 0; vid<=$rootScope.videoList.length-1; vid++)
+					{
+						console.log($rootScope.videoList[vid].name);
+						if($rootScope.videoList[vid].name == $scope.board.stream)
+							$rootScope.timer = $rootScope.videoList[vid].length;
+					}
+
+					console.log($rootScope.timer);
+
+					//Double buffering bitch
+					if($scope.stream == 1)
+						$scope.stream = 2;
+					else if($scope.stream == 2 || $scope.stream == 0)
+						$scope.stream = 1;
+
+					$scope.board.streamOld = $scope.board.stream;
+					$scope.board.stream = "empty";
+				}
+				else
+				{
+					$scope.stream = 0;
+					$scope.board.streamOld = $scope.board.stream;
+					$rootScope.timer = 10;
 				}
 
-				console.log($rootScope.timer);
-
-				//Double buffering bitch
-				if($scope.stream == 1)
-					$scope.stream = 2;
-				else if($scope.stream == 2 || $scope.stream == 0)
-					$scope.stream = 1;
-
-				$scope.board.streamOld = $scope.board.stream;
-				$scope.board.stream = "empty";
-			}
-			else
-			{
-				$scope.stream = 0;
-				$scope.board.streamOld = $scope.board.stream;
-				$rootScope.timer = 10;
-			}
-
-			queryService.setBoard($scope.board)
-	        	.success(function(data, status, headers, config) {
-	        		console.log("setBoardSuccess");
-	  			})
-	  			.error(function(data, status, headers, config) {
-	  					console.log("setBoardFAIL");
-	  			});
-		});
+				queryService.setBoard($scope.board)
+		        	.success(function(data, status, headers, config) {
+		        		console.log("setBoardSuccess");
+		  			})
+		  			.error(function(data, status, headers, config) {
+		  					console.log("setBoardFAIL");
+		  			});
+			});
     	}
     	
-
+    	$rootScope.timer--;
     	//console.log($rootScope.timer);
-    }, 1000);
-		
+    }, 2000);
+
+    $scope.dismiss = function () {
+
+    	queryService.getBoard($scope.currentId)
+		    .success(function(data, status, headers, config) {
+				$scope.currentQuery = data;
+
+				$rootScope.streamBoard = $scope.currentQuery;
+				console.log($rootScope.streamBoard );
+
+				queryService.setStream($rootScope.streamBoard)
+				    .success(function(data, status, headers, config) {
+						$scope.currentQuery = data;
+
+						console.log($scope.currentQuery);
+
+					})
+					.error(function(data, status, headers, config) {
+						console.log(data);
+			  	});
+	    	$location.path('/map');
+
+			})
+			.error(function(data, status, headers, config) {
+				$scope.keinBoard = data;
+				console.log($scope.board);
+	  	});
+    	
+    };
 });
 
 angular.module('advertioApp.directives', [])
@@ -569,6 +653,18 @@ angular.module('advertioApp.services', [])
 		deleteBoard: function(board)
 		{
 			return $http.delete(config.apiUrl  + '/api/board/'+board.werbetafelId);
+		},
+		createStream: function(board)
+		{
+			return $http.post(config.apiUrl  + '/api/stream', board);
+		},
+		setStream: function(board)
+		{
+			return $http.put(config.apiUrl  + '/api/stream/1', board);
+		},
+		deleteStream: function(board)
+		{
+			return $http.delete(config.apiUrl  + '/api/stream/'+board.werbetafelId);
 		},
 		getVideos: function()
 		{
