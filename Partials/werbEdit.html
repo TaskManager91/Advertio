@@ -75,7 +75,7 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lang.$invalid}">
-        <input type="number" class="form-control" name="lang" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.xPos" step="0.00000001" required>
+        <input type="number" class="form-control" name="lang" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.xPos" step="0.000000000000001" required>
          <span class="help-block" ng-show="!myForm.lang.$valid">
           Kein Gültiger Längengrad!
          </span>
@@ -88,7 +88,7 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lat.$invalid}">
-        <input type="number" class="form-control" name="lat" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.yPos" step="0.00000001" required>
+        <input type="number" class="form-control" name="lat" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.yPos" step="0.000000000000001" required>
          <span class="help-block" ng-show="!myForm.lat.$valid">
           Kein Gültiger Breitengrad!
          </span>

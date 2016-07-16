@@ -154,6 +154,8 @@ angular.module('advertioApp.controllers', [])
 })
 .controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService,$location) {
 	$rootScope.aktiv = "werban";
+	$scope.alerts = [
+  	];
 	console.log(latllngService.getLat());
 	console.log(latllngService.getLng()); 
 	$scope.board = {};
@@ -166,6 +168,10 @@ angular.module('advertioApp.controllers', [])
 	$scope.board.streamOld = "empty";
 	$scope.board.xPos = latllngService.getLat();
 	$scope.board.yPos = latllngService.getLng();
+
+	    $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
 
 	$scope.saveBoard = function () {
 		/* Dank Json support nicht mehr nötig!
@@ -184,6 +190,7 @@ angular.module('advertioApp.controllers', [])
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
+  				$scope.alerts.push({ type: 'danger', msg: 'StandortID nicht bekannt!'});
 
   			});
     };
