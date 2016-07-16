@@ -1,5 +1,5 @@
 angular.module('advertioApp.controllers', [])
-.controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope, $uibModal) {
+.controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope, $uibModal, md5) {
 	
 	$scope.logedin = false;
 	$rootScope.streaming = false;
@@ -23,7 +23,12 @@ angular.module('advertioApp.controllers', [])
     $scope.width = window.innerWidth;
 
 	$scope.submit = function (usr) {
-        authService.login(usr)
+		console.log(usr);
+		console.log(md5.createHash(usr.passwort));
+		var user = {};
+		user.user = usr.user;
+		user.passwort = md5.createHash(usr.passwort);
+        authService.login(user)
         	.success(function(data, status, headers, config) {
         		console.log(data);
     			authService.setSettings(usr.user, token);

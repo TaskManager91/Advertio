@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         dest: 'dist/js/app.js',
       },
       libjs: {
-        src: ['js/libs/angular.js', 'js/libs/angular-cookies.js', 'js/libs/angular-route.js', 'js/libs/angular-resource.js', 'js/libs/leaflet.js', 'js/libs/ui-bootstrap-tpls-1.3.3.js'],
+        src: ['js/libs/angular.js', 'js/libs/angular-cookies.js', 'js/libs/angular-route.js', 'js/libs/angular-md5.js', 'js/libs/angular-resource.js', 'js/libs/leaflet.js', 'js/libs/ui-bootstrap-tpls-1.3.3.js'],
         dest: 'dist/js/libs.js',
       },
       css: {

@@ -2,6 +2,7 @@ angular.module('advertioApp',['ui.bootstrap',
 	'ngRoute',
 	'ngResource',
 	'ngCookies',
+	'ngMd5',
 	'advertioApp.controllers',
 	'advertioApp.directives',
 	'advertioApp.services'])
