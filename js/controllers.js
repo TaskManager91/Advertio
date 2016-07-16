@@ -474,7 +474,7 @@ angular.module('advertioApp.controllers', [])
 					{
 						console.log($rootScope.videoList[vid].name);
 						if($rootScope.videoList[vid].name == $scope.board.stream)
-							$rootScope.timer = $rootScope.videoList[vid].length;
+							$rootScope.timer = $rootScope.videoList[vid].length/2;
 					}
 
 					console.log($rootScope.timer);
