@@ -152,6 +152,10 @@ angular.module('advertioApp.controllers', [])
 		    });
     };
 })
+.controller('kontaktController', function($scope, $routeParams, $rootScope, $location) {
+	$rootScope.aktiv = "kontakt";
+
+})
 .controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService,$location) {
 	$rootScope.aktiv = "werban";
 	$scope.alerts = [
