@@ -1,3 +1,16 @@
+<script type="text/ng-template" id="sureDeleteModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Sicher das sie diese Tafel löschen wollen?</h3>
+    </div>
+    <div class="modal-body">
+        WerbetafelID: <b>{{ item }}</b>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok(item)"><font color="white">OK</font></button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Abbruch</button>
+    </div>
+</script>
+
 
 <div class="row">
   <div class="col-md-2"></div>
@@ -24,8 +37,11 @@
     <div class="col-md-2"></div>  
     <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div><!-- Single button -->
     <div class="col-md-3">
-      <div class="form-group" style="margin-top:10px">
-        <input class="form-control" name="id" ng-pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" ng-model="board.werbetafelMacAdresse" required>
+      <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.MacAdress.$invalid}">
+        <input class="form-control" name="MacAdress" ng-pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" ng-model="board.werbetafelMacAdresse" required>
+        <span class="help-block" ng-show="!myForm.MacAdress.$valid">
+          Keine Gültige MacAdresse!
+         </span>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -104,7 +120,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="dismiss()">Abbrechen</button> </div><!-- Single button -->
     <div class="col-md-1"></div>
-    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard()">Löschen</button></div><!-- hier war der Delete button -->
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard(board.werbetafelId)">Löschen</button></div><!-- hier war der Delete button -->
     <div class="col-md-2"></div> 
   </div>
   </form>  

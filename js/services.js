@@ -68,9 +68,9 @@ angular.module('advertioApp.services', [])
 		{
 			return $http.put(config.apiUrl  + '/api/board/1', board);
 		},
-		deleteBoard: function(board)
+		deleteBoard: function(boardID)
 		{
-			return $http.delete(config.apiUrl  + '/api/board/'+board.werbetafelId);
+			return $http.delete(config.apiUrl  + '/api/board/'+boardID);
 		},
 		createStream: function(board)
 		{

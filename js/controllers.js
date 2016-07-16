@@ -200,7 +200,7 @@ angular.module('advertioApp.controllers', [])
     };
 
 })
-.controller('werbEditController', function($scope, $routeParams, queryService, $rootScope, $location) {
+.controller('werbEditController', function($scope, $routeParams, queryService, $rootScope, $location, $uibModal) {
     var currentId = $routeParams.id;
     $rootScope.aktiv = "werbedit";
 
@@ -280,23 +280,53 @@ angular.module('advertioApp.controllers', [])
 	  };
 
 
-    $scope.deleteBoard = function () {
+    $scope.deleteBoard = function (boardID) {
 
-        queryService.deleteBoard($scope.board)
-        	.success(function(data, status, headers, config) {
-    			
-    			//change path specific on user rights
-    			$location.path('/map');
-  			})
-  			.error(function(data, status, headers, config) {
+    	var modalInstance = $uibModal.open({
+		      animation: true,
+		      templateUrl: 'sureDeleteModal.html',
+		      controller: 'sureDeleteModalCtrl',
+		      size: '',
+		      resolve: {
+		        item: function () {
+		          return boardID;
+		        }
+		      }
+		    });
 
-  			});
+		    modalInstance.result.then(function (item) {
+		    	queryService.deleteBoard(item)
+		        	.success(function(data, status, headers, config) {
+		    			
+		    			//change path specific on user rights
+		    			$location.path('/map');
+		  			})
+		  			.error(function(data, status, headers, config) {
+
+		  			});
+		    }, function () {
+		     
+		    });
     };
+
+        
 
     $scope.dismiss = function () {
     	$location.path('/map');
     };
 
+
+})
+.controller('sureDeleteModalCtrl', function($scope, $uibModalInstance, item) {
+	$scope.item = item;
+
+	$scope.ok = function (item) {
+    $uibModalInstance.close($scope.item);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 
 })
 .controller('sureStreamModalCtrl', function($scope, $uibModalInstance, item) {
