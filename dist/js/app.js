@@ -222,6 +222,9 @@ angular.module('advertioApp.controllers', [])
 .controller('werbEditController', function($scope, $routeParams, queryService, $rootScope, $location) {
     var currentId = $routeParams.id;
     $rootScope.aktiv = "werbedit";
+
+    $scope.alerts = [
+  	];
     /*
     $scope.id = 0;
 		$scope.adr = 0;
@@ -234,6 +237,7 @@ angular.module('advertioApp.controllers', [])
     queryService.getBoard(currentId)
 	    .success(function(data, status, headers, config) {
 			$scope.currentQuery = data;
+			$scope.currentQuery.werbetafelMacAdresse = $scope.currentQuery.werbetafelMacAdresse.toLowerCase();
 			//console.log($scope.currentQuery);
 			//$scope.Buffer = $scope.currentQuery.split("-");
 
@@ -282,9 +286,18 @@ angular.module('advertioApp.controllers', [])
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
+  				console.log(data);
+  				console.log(data.substring(0,1));
+  				if(data.substring(0,1) == "W")
+        			$scope.alerts.push({ type: 'danger', msg: 'StandortID nicht bekannt!'});
 
   			});
     };
+
+    $scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
+
 
     $scope.deleteBoard = function () {
 

@@ -6,13 +6,17 @@
   <br />
   <br />
 <div ng-if="board">
+<form name="myForm" ng-submit="saveBoard()">
+<div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-5"><uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert></div><!-- Single button -->
+      <div class="col-md-5"></div> 
+  </div>
   <div class="row">
     <div class="col-md-2"></div>  
     <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
-    <div class="col-md-3">
-      <div class="form-group" style="margin-top:10px">
-      <input type="text" class="form-control" name="id" ng-model="board.werbetafelId" required>
-      </div>
+    <div class="col-md-3"><h4 style="margin-bottom:10px">
+      {{board.werbetafelId }}</h4>
       </div>
       <div class="col-md-5"></div> 
   </div>
@@ -21,17 +25,17 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.werbetafelMacAdresse" required>
+        <input class="form-control" name="id" ng-pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" ng-model="board.werbetafelMacAdresse" required>
       </div>
     </div>
     <div class="col-md-5"></div> 
   </div>
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Standort</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">StandortID</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.adresse" required>
+        <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.adresse" required>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -41,7 +45,7 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (X-Achse)</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.dimensionX" required>
+        <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.dimensionX" required>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -51,7 +55,7 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (Y-Achse)</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.dimensionY" required>
+        <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.dimensionY" required>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -61,7 +65,7 @@
     <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div><!-- Single button -->
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.preis" required>
+        <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.preis" required>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -70,8 +74,11 @@
     <div class="col-md-2"></div>  
     <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div><!-- Single button -->
     <div class="col-md-3">
-      <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.xPos" required>
+      <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lang.$invalid}">
+        <input type="number" class="form-control" name="lang" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.xPos" step="0.00000001" required>
+         <span class="help-block" ng-show="!myForm.lang.$valid">
+          Kein Gültiger Längengrad!
+         </span>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -80,8 +87,11 @@
     <div class="col-md-2"></div>  
     <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div><!-- Single button -->
     <div class="col-md-3">
-      <div class="form-group" style="margin-top:10px">
-        <input type="text" class="form-control" name="id" ng-model="board.yPos" required>
+      <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lat.$invalid}">
+        <input type="number" class="form-control" name="lat" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.yPos" step="0.00000001" required>
+         <span class="help-block" ng-show="!myForm.lat.$valid">
+          Kein Gültiger Breitengrad!
+         </span>
       </div>
     </div>
     <div class="col-md-5"></div> 
@@ -90,13 +100,14 @@
   <br />
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="saveBoard()">Speichern</button> </div><!-- Single button -->
+    <div class="col-md-2"><button type="submit" class="btn btn-default btn-block">Speichern</button> </div><!-- Single button -->
     <div class="col-md-1"></div>
     <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="dismiss()">Abbrechen</button> </div><!-- Single button -->
     <div class="col-md-1"></div>
     <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard()">Löschen</button></div><!-- hier war der Delete button -->
     <div class="col-md-2"></div> 
-  </div>  
+  </div>
+  </form>  
 </div>
 <div ng-if="keinBoard">
   <div class="row">
