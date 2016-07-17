@@ -23,7 +23,7 @@ angular.module('advertioApp',['ui.bootstrap',
 })
 .constant('config', {
     appName: 'advertioFrontend',
-    apiUrl: 'http://advertioend.azurewebsites.net'
+    apiUrl: 'http://backendsharpcologne.azurewebsites.net'
 });
 angular.module('advertioApp.controllers', [])
 .controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope, $uibModal, md5) {

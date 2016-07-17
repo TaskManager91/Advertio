@@ -23,5 +23,5 @@ angular.module('advertioApp',['ui.bootstrap',
 })
 .constant('config', {
     appName: 'advertioFrontend',
-    apiUrl: 'http://advertioend.azurewebsites.net'
+    apiUrl: 'http://backendsharpcologne.azurewebsites.net'
 });
