@@ -370,7 +370,7 @@ angular.module('advertioApp.controllers', [])
 .controller('latModalCtrl', function($scope, $uibModalInstance, item) {
 	$scope.item = item;
 
-	$scope.ok = function () {
+	$scope.ok = function (item) {
     $uibModalInstance.close($scope.item.latlng);
   };
 
