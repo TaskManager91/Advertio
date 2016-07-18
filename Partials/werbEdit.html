@@ -1,3 +1,6 @@
+
+<!-- ######## DELETE MODAL ############# -->
+<!-- fragt den User ob er wirklich die Werbetafel löschen will -->
 <script type="text/ng-template" id="sureDeleteModal.html">
     <div class="modal-header">
         <h3 class="modal-title">Sicher das sie diese Tafel löschen wollen?</h3>
@@ -11,7 +14,7 @@
     </div>
 </script>
 
-
+<!-- die eigentliche View -->
 <div class="row">
   <div class="col-md-2"></div>
   <div class="col-md-10"><h2>Werbetafel-Editieren</h2></div>
@@ -19,15 +22,16 @@
   <br />
   <br />
 <div ng-if="board">
+<!-- wenn unten auf submit geklickt wird saveBoard() aufrufen -->
 <form name="myForm" ng-submit="saveBoard()">
 <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-5"><uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert></div><!-- Single button -->
+    <div class="col-md-5"><uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert></div>
       <div class="col-md-5"></div> 
   </div>
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Kennzeichnung (ID)</h4> </div>
     <div class="col-md-3"><h4 style="margin-bottom:10px">
       {{board.werbetafelId }}</h4>
       </div>
@@ -35,7 +39,7 @@
   </div>
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">WerbetafelMacAdresse</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.MacAdress.$invalid}">
         <input class="form-control" name="MacAdress" ng-pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" ng-model="board.werbetafelMacAdresse" required>
@@ -48,7 +52,7 @@
   </div>
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">StandortID</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">StandortID</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
         <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.adresse" required>
@@ -58,7 +62,7 @@
   </div>      
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (X-Achse)</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (X-Achse)</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
         <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.dimensionX" required>
@@ -68,7 +72,7 @@
   </div>   
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (Y-Achse)</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Bildgröße (Y-Achse)</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
         <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.dimensionY" required>
@@ -78,7 +82,7 @@
   </div>  
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">&Oslash Preis in €</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px">
         <input type="number" class="form-control" name="id" ng-pattern="/^[0-9]{1,7}$/" ng-model="board.preis" required>
@@ -88,7 +92,7 @@
   </div>    
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Längengrad</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lang.$invalid}">
         <input type="number" class="form-control" name="lang" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.xPos" step="0.000000000000001" required>
@@ -101,7 +105,7 @@
   </div>
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div><!-- Single button -->
+    <div class="col-md-2"><h4 style="margin-bottom:10px">Breitengrad</h4> </div>
     <div class="col-md-3">
       <div class="form-group" style="margin-top:10px" ng-class="{'has-error': myForm.lat.$invalid}">
         <input type="number" class="form-control" name="lat" ng-patter="/^[0-9]{1,7}(\.[0-9]+)?$/" ng-model="board.yPos" step="0.000000000000001" required>
@@ -116,11 +120,11 @@
   <br />
   <div class="row">
     <div class="col-md-2"></div>  
-    <div class="col-md-2"><button type="submit" class="btn btn-default btn-block">Speichern</button> </div><!-- Single button -->
+    <div class="col-md-2"><button type="submit" class="btn btn-default btn-block">Speichern</button> </div>
     <div class="col-md-1"></div>
-    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="dismiss()">Abbrechen</button> </div><!-- Single button -->
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="dismiss()">Abbrechen</button> </div>>
     <div class="col-md-1"></div>
-    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard(board.werbetafelId)">Löschen</button></div><!-- hier war der Delete button -->
+    <div class="col-md-2"><button type="button" class="btn btn-default btn-block" ng-click="deleteBoard(board.werbetafelId)">Löschen</button></div>
     <div class="col-md-2"></div> 
   </div>
   </form>  

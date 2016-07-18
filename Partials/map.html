@@ -1,4 +1,5 @@
 
+<!-- ######## MODALS ############# -->
 <script type="text/ng-template" id="createModal.html">
     <div class="modal-header">
         <h3 class="modal-title">Werbetafel hier anlegen?</h3>
@@ -13,7 +14,7 @@
 </script>
 <script type="text/ng-template" id="sureStreamModal.html">
     <div class="modal-header">
-        <h3 class="modal-title">Sicher das sie diese Tafel hier streamen wollen?</h3>
+        <h3 class="modal-title">Sicher, dass sie diese Tafel hier streamen wollen?</h3>
     </div>
     <div class="modal-body">
         WerbetafelID: <b>{{ item }}</b>
@@ -23,5 +24,7 @@
         <button class="btn btn-warning" type="button" ng-click="cancel()">Abbruch</button>
     </div>
 </script>
+
+<!-- die eigentliche View -->
 <div ng-if="currentQuery" class="row">
 <div map ng-if="currentQuery" boards="boards" class="col-md-12 ar-map" style="height:100%; left:0; position: fixed !important; top: 50px; width: 100%" id="map"></div>

@@ -104,31 +104,10 @@ angular.module('advertioApp.controllers', [])
 
 	queryService.getBoards().then(function(response){
 		$scope.currentQuery = response.data;
-		//console.log($scope.currentQuery);
-		//$scope.Buffer = $scope.currentQuery.split("-");
 
-
-		//$scope.boards = new Array($scope.Buffer.length);
 		$scope.boards = $scope.currentQuery;
 		console.log($scope.boards);
-		/*
-		for(var i = 0; i<$scope.Buffer.length-1; i++)
-		{
-			var board = $scope.Buffer[i].split(" ");
-			console.log("boardNR" + i);
-			console.log(board);
-			$scope.boards[i] = new Array (7);
-			$scope.boards[i][0] = board[0];		//ID
-			$scope.boards[i][1] = board[1];		//Adr
-			$scope.boards[i][2] = board[2];		//BildX
-			$scope.boards[i][3] = board[3];		//BildY
-			$scope.boards[i][4] = board[4];		//P
-			$scope.boards[i][5] = board[5];		//XPos
-			$scope.boards[i][6] = board[6];		//YPos
 
-		}
-		*/
-		//$scope.boards = $scope.currentQuery.boards;
 	});
 
 	$scope.sureStream = function(streamID) {

@@ -28,11 +28,10 @@ angular.module('advertioApp.directives', [])
 
 			//Right click on the map activated
 			map.on('contextmenu', function(e) {
-			    //alert(e.latlng);
-			    console.log("BLAH");
-			    console.log(e.latlng);
+
 			    var animationsEnabled = true;
 
+			    //Hier wird das Modal aufgerufen, wenn rechts geklickt wird!
 			    var modalInstance = $uibModal.open({
 			      animation: animationsEnabled,
 			      templateUrl: 'createModal.html',
@@ -46,8 +45,11 @@ angular.module('advertioApp.directives', [])
 			    });
 
 			    modalInstance.result.then(function (latlng) {
+			    	//hier werden die LatLang Koordinaten in den Buffer service geladen
 			      var setLat = latllngService.setLat(latlng.lat);
 			      var setLng = latllngService.setLng(latlng.lng);
+
+			      //ACHTUNG die Werbedit seite wird per href vom Modal geladen!
 
 			    }, function () {
 			     
@@ -62,27 +64,7 @@ angular.module('advertioApp.directives', [])
 			//for(var i = 0; i<Boards.length-1; i++){
 			for(var i in Boards){
 				console.log(Boards[i]);
-				//console.log("here");
-				//var position = Boards[i].position;
-				/*
-				var id = String(Boards[i][0]);
-				var adr = String(Boards[i][1]);
-				var x = String(Boards[i][5]);
-				var y = String(Boards[i][6]);
-				var p = String(Boards[i][4]);
-				*/
-				
-				//console.log(String(Boards[i][0]));
 
-				//nicht schön aber replace ist mit , und . einfach scheisse
-				//var xbuf = x.split(",");
-				//var xnew = xbuf[0] + "." + xbuf[1];
-
-				//var ybuf = y.split(",");
-				//var ynew = ybuf[0] + "." + ybuf[1];
-
-				//console.log(xnew);
-				//console.log(ynew);
 				var markerString = '<h2>Werbetafel:</h2>' + 
 									'<table><tr><td>WerbetafelID:</td><td>' + Boards[i].werbetafelId + '</td></tr>' +
 									'<tr><td>werbetafelMacAdresse: &nbsp &nbsp  </td><td> ' + Boards[i].werbetafelMacAdresse+'</td></tr>' +
