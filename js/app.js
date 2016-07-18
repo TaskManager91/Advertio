@@ -8,6 +8,7 @@ angular.module('advertioApp',['ui.bootstrap',
 	'advertioApp.services'])
 .config(function($routeProvider, $httpProvider, $locationProvider, $sceProvider) {
 
+	//die Routes setzen
     $locationProvider.html5Mode(true);
     $locationProvider.html5Mode(true).hashPrefix('!');
 	$routeProvider
@@ -17,10 +18,11 @@ angular.module('advertioApp',['ui.bootstrap',
 		.when('/kontakt', {templateUrl: 'Partials/kontakt.html', controller: 'kontaktController'})
 		.when('/werbEdit/:id', {templateUrl: 'Partials/werbEdit.html', controller: 'werbEditController'})
 		.when('/stream/:id', {templateUrl: 'Partials/stream.html', controller: 'streamController'});
-	$httpProvider.defaults.useXDomain = true; 
-	$sceProvider.enabled(false);
-	delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	$httpProvider.defaults.useXDomain = true; 								//CORS
+	$sceProvider.enabled(false);											//zum streaming der Daten erlauben
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];		//CORS
 })
+//BACKEND URL!!!!
 .constant('config', {
     appName: 'advertioFrontend',
     apiUrl: 'http://backendsharpcologne.azurewebsites.net'

@@ -1,5 +1,8 @@
 angular.module('advertioApp.directives', [])
+//Es gibt nur eine directive die MAP!
 .directive('map', function($http, $interval, $uibModal, latllngService) {
+	
+	//es werden die boards der karte übergeben!
 	return {
 		restrict: 'A',
 		scope: {
@@ -8,6 +11,7 @@ angular.module('advertioApp.directives', [])
 		link: function(scope) 
 		{	
 
+			//Icon festlegen
 			var icon = L.Icon.extend({
 		       options: {
 			     iconSize:     [50, 50], // size of the icon
@@ -16,17 +20,19 @@ angular.module('advertioApp.directives', [])
 			       }
 			   });
 
+		   //beiden Icons initialisieren und Bilder laden!
 		   var kTafel = new icon({ iconUrl: '/img/Icons/iconG.png'}),
 		     gTafel = new icon({iconUrl: '/img/Icons/iconK.png'});
 
 			var markers = {};			
+			//Karte erstellen und auf Kölner Koordinaten setzen!
 			var map = L.map('map').setView([50.935824, 6.951172], 13);
 
 			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				}).addTo(map);
 
-			//Right click on the map activated
+			//Bei Rechtsklick das Modal zum erstellen einer Werbetafel öffnen!
 			map.on('contextmenu', function(e) {
 
 			    var animationsEnabled = true;
@@ -57,13 +63,13 @@ angular.module('advertioApp.directives', [])
 			});
 
 
+			//Wenn boards vorhanden sind, diese auf der Karte anzeigen lassen
 			if(scope.boards != null)	
 			{
 			var Boards = scope.boards;
-			console.log(Boards);
-			//for(var i = 0; i<Boards.length-1; i++){
+
+			//Alle Boards durchlaufen und die Marker erstellen mit den PopUps
 			for(var i in Boards){
-				console.log(Boards[i]);
 
 				var markerString = '<h2>Werbetafel:</h2>' + 
 									'<table><tr><td>WerbetafelID:</td><td>' + Boards[i].werbetafelId + '</td></tr>' +

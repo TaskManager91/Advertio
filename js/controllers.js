@@ -1,6 +1,8 @@
 angular.module('advertioApp.controllers', [])
+//Der Hauptcontroller der bei der Index geladen wird!
 .controller('MasterCtrl', function($scope, $location, $cookies, authService, $rootScope, $uibModal, md5) {
 	
+	//globale variablen
 	$scope.logedin = false;
 	$rootScope.streaming = false;
 	$rootScope.aktiv = "map";
@@ -8,6 +10,7 @@ angular.module('advertioApp.controllers', [])
 	 $scope.alerts = [
   	];
 
+  	//gucken ob der user schon angemeldet ist
 	if($scope.user != null)
 	{
 		var token = $cookies.get('token');
@@ -18,16 +21,17 @@ angular.module('advertioApp.controllers', [])
     	$location.path('/map');
 	}
 
-	  
-    console.log(window.innerWidth);
     $scope.width = window.innerWidth;
 
+    //User login
 	$scope.submit = function (usr) {
-		console.log(usr);
+		//falls jemand schon wieder das Passwort per hand im klartext abgespeichert hat, nochmal das md5 PW ausgeben!
 		console.log(md5.createHash(usr.passwort));
+
 		var user = {};
 		user.user = usr.user;
-		user.passwort = md5.createHash(usr.passwort);
+		user.passwort = md5.createHash(usr.passwort);	//passwort verschlüsseln
+		//User Daten über den authService(das REST) an das Backend senden
         authService.login(user)
         	.success(function(data, status, headers, config) {
         		console.log(data);
@@ -35,10 +39,12 @@ angular.module('advertioApp.controllers', [])
 				$scope.logedin = true;
     			$scope.user = usr.user;
     			$scope.alerts = [];
-    			//change path specific on user rights
+    			//wenn der User erfolgreich eingeloggt ist auf die map wechseln
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
+
+  				//falls es ein Fehler gibt, diesen ausgeben!
         		if(data== "error")
         			$scope.alerts.push({ type: 'danger', msg: 'User nicht bekannt!'});
         		else if(data == "wrongPW")
@@ -48,12 +54,15 @@ angular.module('advertioApp.controllers', [])
   			});
     };
 
+    //kleine funktion zum schliessen der Fehler alerts
     $scope.closeAlert = function(index) {
 	    $scope.alerts.splice(index, 1);
 	  };
 
+	 //hiermit wird das WerbeEditieren Modal geöffnet (die ID abgefragt die editiert werden soll)
 	$scope.werbEdit = function() {
 
+		//Modal instanz öffnen (html und controller wird übergeben ID standartmässig auf 0, diese wird ja abgefragt)
 		var modalInstance = $uibModal.open({
 		      animation: true,
 		      templateUrl: 'editModal.html',
@@ -66,7 +75,9 @@ angular.module('advertioApp.controllers', [])
 		      }
 		    });
 
+			//hat sich der user entschieden wird genau diese Tafel zum Editieren aufgerufen
 		    modalInstance.result.then(function (item) {
+		    	//tafel mit besagter ID editieren
 		    	$location.path('/werbEdit/'+item);
 		    }, function () {
 		     
@@ -74,8 +85,10 @@ angular.module('advertioApp.controllers', [])
 		
     };
 
+    //Das Modal das aufgerufen wird, wenn der Nutzer über die Navbar eine werbetafel anlegen will!
     $scope.werbAn = function() {
 
+    	//modal öffnen
 		var modalInstance = $uibModal.open({
 		      animation: true,
 		      templateUrl: 'anModal.html',
@@ -83,6 +96,7 @@ angular.module('advertioApp.controllers', [])
 		      size: ''
 		    });
 
+			//das modal kann nur geschlossen werden, deswegen passiert hier nicht viel!
 		    modalInstance.result.then(function () {
 		    }, function () {
 		     
@@ -90,7 +104,9 @@ angular.module('advertioApp.controllers', [])
 		
     };
 
+    //User loggt sich aus!
     $scope.logout = function() {
+    	//cookies entfernen und zurück zum login Fenster!
         $cookies.remove('user');
         $cookies.remove('token');
 		$scope.logedin = false;
@@ -98,11 +114,15 @@ angular.module('advertioApp.controllers', [])
 		$location.path('/');
     };
 })
+//Hier werden die Tafeln auf der Karte angezeigt!
 .controller('mapController', function($scope, queryService, $rootScope,  $uibModal) {
+	//Oben die navbar auf map setzen
 	$rootScope.aktiv = "map";
 	$rootScope.streaming = false;
 
+	//alle Boards vom Backend holen
 	queryService.getBoards().then(function(response){
+		//die boards kommen an
 		$scope.currentQuery = response.data;
 
 		$scope.boards = $scope.currentQuery;
@@ -110,8 +130,10 @@ angular.module('advertioApp.controllers', [])
 
 	});
 
+	//abfrage ob der Nutzer wirklich besagte tafel streamen will
 	$scope.sureStream = function(streamID) {
 
+		//Modal öffnen und die Werbetafel ID übergeben
 		var modalInstance = $uibModal.open({
 		      animation: true,
 		      templateUrl: 'sureStreamModal.html',
@@ -124,6 +146,7 @@ angular.module('advertioApp.controllers', [])
 		      }
 		    });
 
+			//wenn der Nutzer auf OK drückt, wird genau diese Werbetafel gestreamt
 		    modalInstance.result.then(function (item) {
 		    	$location.path('/stream/'+item);
 		    }, function () {
@@ -131,16 +154,21 @@ angular.module('advertioApp.controllers', [])
 		    });
     };
 })
+//Kontakt kontroller für die Partial Kontakt
 .controller('kontaktController', function($scope, $routeParams, $rootScope, $location) {
+	//setzt nur die Navbar auf kontakt
 	$rootScope.aktiv = "kontakt";
 
 })
+//Werbetafel erstellen
 .controller('werbErstController', function($scope, $routeParams, queryService, $rootScope, latllngService,$location) {
 	$rootScope.aktiv = "werban";
 	$scope.alerts = [
   	];
 	console.log(latllngService.getLat());
 	console.log(latllngService.getLng()); 
+
+	//Alle Werte für das Formular initialisieren (wegen der regex kontrolle)
 	$scope.board = {};
 	$scope.board.werbetafelMacAdresse = "00:00:00:00:00";
 	$scope.board.adresse = 0;
@@ -152,10 +180,12 @@ angular.module('advertioApp.controllers', [])
 	$scope.board.xPos = latllngService.getLat();
 	$scope.board.yPos = latllngService.getLng();
 
-	    $scope.closeAlert = function(index) {
+	//Funktion zum schliessen der Fehler alerts
+	 $scope.closeAlert = function(index) {
 	    $scope.alerts.splice(index, 1);
 	  };
 
+	  //Tafel wird an das Backend gesendet
 	$scope.saveBoard = function () {
 		/* Dank Json support nicht mehr nötig!
 		var id = $scope.id.toString();
@@ -169,24 +199,29 @@ angular.module('advertioApp.controllers', [])
         queryService.createBoard($scope.board)
         	.success(function(data, status, headers, config) {
     			
-    			//change path specific on user rights
+    			//auf die Map setzen, wenn die Tafel angelegt wurde
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
+  				//Fehler kann nur kommen, wenn die Adresse nicht korrket gesetzt wurde, der rest wird im Frontend gecheckt!
   				$scope.alerts.push({ type: 'danger', msg: 'StandortID nicht bekannt!'});
 
   			});
     };
 
+    //abbruch also auf die Karte setzen
     $scope.dismiss = function () {
     	$location.path('/map');
     };
 
 })
+//werbetafel editieren
 .controller('werbEditController', function($scope, $routeParams, queryService, $rootScope, $location, $uibModal) {
+    //die ID der WErbetafel ist die ID in der Adresszeile
     var currentId = $routeParams.id;
     $rootScope.aktiv = "werbedit";
 
+    //Alert Liste
     $scope.alerts = [
   	];
     /*
@@ -198,6 +233,7 @@ angular.module('advertioApp.controllers', [])
 		var board = "";
 		*/
 
+	//das aktuelle Board holen
     queryService.getBoard(currentId)
 	    .success(function(data, status, headers, config) {
 			$scope.currentQuery = data;
@@ -229,8 +265,8 @@ angular.module('advertioApp.controllers', [])
 			//$scope.boards = $scope.currentQuery.boards;
 		})
 		.error(function(data, status, headers, config) {
+			//wenn das Board nicht gefunden wurde, dass auch zeigen
 			$scope.keinBoard = data;
-			console.log($scope.board);
   	});
 
 	$scope.saveBoard = function () {
@@ -246,25 +282,26 @@ angular.module('advertioApp.controllers', [])
         queryService.setBoard($scope.board)
         	.success(function(data, status, headers, config) {
     			
-    			//change path specific on user rights
+    			//editieren hat geklappt, also auf Map setzen
     			$location.path('/map');
   			})
   			.error(function(data, status, headers, config) {
-  				console.log(data);
-  				console.log(data.substring(0,1));
+  				//Fehler kann nur kommen, wenn die Adresse nicht korrket gesetzt wurde, der rest wird im Frontend gecheckt
   				if(data.substring(0,1) == "W")
         			$scope.alerts.push({ type: 'danger', msg: 'StandortID nicht bekannt!'});
 
   			});
     };
 
+    //Funktion zum schliessen der Alerts
     $scope.closeAlert = function(index) {
 	    $scope.alerts.splice(index, 1);
 	  };
 
-
+	 //Board Löschen
     $scope.deleteBoard = function (boardID) {
 
+    	//Board Löschen Modal öffnen
     	var modalInstance = $uibModal.open({
 		      animation: true,
 		      templateUrl: 'sureDeleteModal.html',
@@ -281,7 +318,7 @@ angular.module('advertioApp.controllers', [])
 		    	queryService.deleteBoard(item)
 		        	.success(function(data, status, headers, config) {
 		    			
-		    			//change path specific on user rights
+		    			//der Nutzer wollte die Tafel wirklisch löschen, also wurde das auch gemacht
 		    			$location.path('/map');
 		  			})
 		  			.error(function(data, status, headers, config) {
@@ -293,13 +330,14 @@ angular.module('advertioApp.controllers', [])
     };
 
         
-
+    //abbruch also zurück zur map
     $scope.dismiss = function () {
     	$location.path('/map');
     };
 
 
 })
+// ############## MODAL CONTROLLER  übergeben meist nur irgendwelche Werte ###########################
 .controller('sureDeleteModalCtrl', function($scope, $uibModalInstance, item) {
 	$scope.item = item;
 
@@ -358,6 +396,7 @@ angular.module('advertioApp.controllers', [])
   };
 
 })
+//HIER WIRD GESTREAMT!
 .controller('streamController', function(config, $scope, $routeParams, queryService, $interval, $rootScope, $location) {
     $scope.currentId = $routeParams.id;
     $scope.stream = 0;
@@ -444,36 +483,42 @@ angular.module('advertioApp.controllers', [])
 			$scope.currentQuery = response.data;
 			$scope.board = $scope.currentQuery;
 
-
+				//Wenn ein Video im stream feld steht
 				if($scope.board.stream != "empty")
 				{
+					//stream url setzen
 					$scope.streamURL = config.apiUrl  + "/api/stream/" + $scope.board.stream;
 
+					//Video Liste durchlaufen um die Länge heraus zu finden
 					for(var vid = 0; vid<=$rootScope.videoList.length-1; vid++)
 					{
 						console.log($rootScope.videoList[vid].name);
+						//Video länge setzen (/2 damit wir nur alle 2 sekunden das intervall durchlaufen für die performance)
 						if($rootScope.videoList[vid].name == $scope.board.stream)
 							$rootScope.timer = $rootScope.videoList[vid].length/2;
 					}
 
 					console.log($rootScope.timer);
 
-					//Double buffering bitch
+					//Double buffering damit die Streams nicht hängen, sollte ein Video noch laden und ein Video tag somit blockieren
 					if($scope.stream == 1)
 						$scope.stream = 2;
 					else if($scope.stream == 2 || $scope.stream == 0)
 						$scope.stream = 1;
 
+					//Strema in den StreamOld schreiben und den stream auf empty setzen
 					$scope.board.streamOld = $scope.board.stream;
 					$scope.board.stream = "empty";
 				}
 				else
-				{
+				{	
+					//Kein Video also Advertio Logo zeigen! und 10 sekunden warten (timer x2, da wir ein 2 sek intervall haben)
 					$scope.stream = 0;
 					$scope.board.streamOld = $scope.board.stream;
 					$rootScope.timer = 5;
 				}
 
+				//änderungen an das Backenschicken (also stream und streamOld)
 				queryService.setBoard($scope.board)
 		        	.success(function(data, status, headers, config) {
 		        		console.log("setBoardSuccess");
@@ -485,16 +530,20 @@ angular.module('advertioApp.controllers', [])
     	}
     	
     	$rootScope.timer--;
-    	//console.log($rootScope.timer);
-    }, 2000);
+    	
+    }, 2000);	//wird nur alle 2 sek aufgerufen
 
     
+    //zurück zur map
     $scope.dismiss = function () {
+    	//Timer und intervall killen
     	$interval.cancel(tafel);
         tafel = undefined;
 
+        //zurück zur map
     	$location.path('/map');
 	    $rootScope.streaming = false;
+
 
 	    /*
     	queryService.getBoard($scope.currentId)

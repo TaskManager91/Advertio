@@ -1,17 +1,22 @@
 angular.module('advertioApp.services', [])
+//Der AuthService, für den Login und kleinere tests
 .factory('authService', function(config, $rootScope, $cookies, $http) {
+	
 	var authService = {};
 
+	//login Daten an das Backend senden
 	authService.login = function(usr){
 		return $http.post(config.apiUrl + "/api/login", usr);
 	};
 
+	//testKlasse zum erstellen eines Boards (im normalen einsatz wird der Service unten verwendet)
 	authService.setBoard = function(board){
 		var boardString = "\"" +  board+ "\"" ;
 		console.log(boardString);
 		return $http.post(config.apiUrl  + "/api/board", boardString);
 	}
 
+	//Settings Setzen, leider keine Zeit mehr!
 	authService.setSettings = function(name, token){
 		//$http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		$cookies.put('user', name);
@@ -23,11 +28,13 @@ angular.module('advertioApp.services', [])
 	};
 	return authService;
 })
+//in dem Service werden die latlang koordinaten beim anlegen einer Werbetafel gespeichert
 .factory('latllngService', function(config, $rootScope, $cookies, $http) {
 	var latllngService = {};
 	var lat = 0;
 	var lng = 0;
 
+	//Getter/Setter
 	latllngService.setLat = function(buffer){
 		lat = buffer;
 		return "OK";
@@ -48,9 +55,10 @@ angular.module('advertioApp.services', [])
 
 	return latllngService;
 })
+//Hier werden die REST BackendAbfragen abgeschickt!
 .factory('queryService', function(config, $http) {
 	
-	// factory function body 
+	// alle REST Anfragen an das Backend
 	return {
 		getBoards: function()
 		{
